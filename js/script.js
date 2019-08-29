@@ -1669,7 +1669,7 @@ $document.ready(function () {
 					var url = 'https://www.theroomisred.info/api/email/contactform';
 					var postObject = {
 						reCaptchaKey: "",
-						formName: data["form-type"],
+						formName: "PRMG FORM",
 						licenseKey: "eaa6c5b6-32fc-44f0-b37d-d3afaedd01d4",
 						name: inputs[0].value,
 						dictionary: {
