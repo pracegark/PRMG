@@ -1679,7 +1679,7 @@ $document.ready(function () {
 							subject: inputs[3].value,
 							message: inputs[4].value,
 						},
-						emailsOverride: ['ike.melancon@gmail.com'],
+						emailsOverride: ['Jobs@primestaffingllcla.com'],
 					}
 					fetch(url, {
 						method: 'POST', // or 'PUT'
