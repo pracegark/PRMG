@@ -52,5 +52,5 @@ jobs:
         with:
           app-name: 'PrimeRMG'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_A78C7482887646778570AEAF381BCCC9 }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_A462E5AD1C6643E1BEA18EEF4513FFC2 }}
           package: .
