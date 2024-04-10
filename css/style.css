@@ -25243,6 +25243,65 @@ html .page .isotope-filters .list-isotop > li > a:hover, html .page .isotope-fil
 	background: #fff;
 }
 
+.form-container {
+    font-family: 'Montserrat', Arial, sans-serif;
+}
+
+.form-container .container {
+    max-width: 400px;
+    padding: 30px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+}
+
+.form-container h2 {
+    margin-top: 0;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.form-container form {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-container label {
+    font-weight: bold;
+}
+
+.form-container input[type="text"],
+.form-container input[type="email"],
+.form-container input[type="file"] {
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-family: 'Montserrat', Arial, sans-serif;
+}
+
+.form-container button {
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    font-family: 'Montserrat', Arial, sans-serif;
+}
+
+.form-container button:hover {
+    background-color: #45a049;
+}
+
+@media (max-width: 768px) {
+    .form-container .container {
+        max-width: 90%;
+    }
+}
+
+
 .rd-navbar-static .rd-navbar-nav > li .rd-navbar-dropdown > li > a {
 	display: block;
 	padding: 5px 15px;
@@ -26358,6 +26417,72 @@ html .page .isotope-filters .list-isotop > li > a:hover, html .page .isotope-fil
 	width: 100%;
 	border: 0;
 }
+
+#job-update {
+    font-family: 'Montserrat', Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+}
+
+#job-update .container {
+    max-width: 400px;
+    margin: 50px auto;
+    padding: 30px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+#job-update h2 {
+    margin-top: 0;
+    color: #333;
+}
+
+#job-update .description {
+    font-size: 16px;
+    color: #666;
+}
+
+#job-update form {
+    text-align: left;
+}
+
+#job-update label {
+    font-weight: bold;
+    color: #333;
+}
+
+#job-update input[type="email"] {
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+#job-update .checkbox-container {
+    margin-bottom: 20px;
+}
+
+#job-update input[type="checkbox"] {
+    margin-right: 5px;
+}
+
+#job-update button {
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+#job-update button:hover {
+    background-color: #45a049;
+}
+
 
 .rd-navbar-fixed .rd-navbar-search-form-input input {
 	display: block;

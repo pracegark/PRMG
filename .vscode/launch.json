@@ -8,7 +8,7 @@
         {
             "type": "chrome",
             "request": "launch",
-            "name": "Open staffing-solutions.html",
+            "name": "Open about.html",
             "file": "/Users/graceparker/PRMG/index.html"
         }
     ]
