@@ -986,6 +986,70 @@ $document.ready(function () {
 		}
 	}
 
+	// document.getElementById("subscribeForm").addEventListener("submit", function(event) {
+	// 	event.preventDefault(); // Prevent form submission
+	
+	// 	// Get the email address entered by the user
+	// 	var email = document.getElementById("email").value;
+	
+	// 	// Get all selected jobs
+	// 	var selectedJobs = document.querySelectorAll("input[name='jobs']:checked");
+	// 	var jobsList = [];
+	// 	selectedJobs.forEach(function(job) {
+	// 		jobsList.push(job.value);
+	// 	});
+	
+	// 	// Create the email body with the list of selected jobs
+	// 	var emailBody = "User with email " + email + " has subscribed to receive updates for the following jobs:\n";
+	// 	jobsList.forEach(function(job, index) {
+	// 		emailBody += (index + 1) + ". " + job + "\n";
+	// 	});
+	
+	// 	// Send the email
+	// 	sendEmail(email, emailBody);
+	
+	// 	// Reset the form
+	// 	document.getElementById("subscribeForm").reset();
+	
+	// 	// Display a confirmation message (you can implement this)
+	// });
+	
+	// function sendEmail(email, body) {
+	// 	// This is a placeholder function. You need to implement the logic to send an email.
+	// 	// You can use a server-side script to send the email using a service like SendGrid, or any other email service provider.
+	// 	// Example code to send email using SendGrid API:
+	// 	fetch("https://api.sendgrid.com/v3/mail/send", {
+	// 	    method: "POST",
+	// 	    headers: {
+	// 	        "Authorization": "Bearer YOUR_SENDGRID_API_KEY",
+	// 	        "Content-Type": "application/json"
+	// 	    },
+	// 	    body: JSON.stringify({
+	// 	        personalizations: [{
+	// 	            to: [{ email: email }],
+	// 	            subject: "Subscription Confirmation"
+	// 	        }],
+	// 	        from: { email: "your@email.com" },
+	// 	        content: [{
+	// 	            type: "text/plain",
+	// 	            value: body
+	// 	        }]
+	// 	    })
+	// 	})
+	// 	.then(response => {
+	// 	    if (!response.ok) {
+	// 	        throw new Error("Failed to send email");
+	// 	    }
+	// 	    return response.json();
+	// 	})
+	// 	.then(data => {
+	// 	    console.log("Email sent successfully", data);
+	// 	})
+	// 	.catch(error => {
+	// 	    console.error("Error sending email", error);
+	// 	});
+	// }
+	
 	/**
 	 * Progress bar
 	 * @description  Enable progress bar
