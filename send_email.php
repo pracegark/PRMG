@@ -2,6 +2,7 @@
 // Get form data
 $name = $_POST['name'];
 $email = $_POST['email'];
+$message = $_POST['message']; // Added to retrieve message from form
 
 // File upload handling
 $file_name = $_FILES['resume']['name'];
@@ -16,9 +17,10 @@ $to = 'pracegarker@gmail.com';
 $subject = $name . ' has sent you their resume';
 
 // Set email message
-$message = "Name: $name\n";
-$message .= "Email: $email\n\n";
-$message .= "Please find the resume attached.";
+$message_body = "Name: $name\n";
+$message_body .= "Email: $email\n\n";
+$message_body .= "Message: $message\n\n"; // Added to include message in email body
+$message_body .= "Please find the resume attached.";
 
 // Set headers for attachment
 $headers = "From: $email" . "\r\n";
@@ -38,8 +40,7 @@ $boundary = "--boundary";
 $body = "$boundary\r\n";
 $body .= "Content-Type: text/plain; charset=ISO-8859-1\r\n";
 $body .= "Content-Transfer-Encoding: 7bit\r\n\n";
-$body .= "$message\r\n\n";
-
+$body .= "$message_body\r\n\n"; // Appended the message body
 $body .= "$boundary\r\n";
 $body .= "Content-Type: application/pdf; name=\"$file_name\"\r\n";
 $body .= "Content-Transfer-Encoding: base64\r\n";
