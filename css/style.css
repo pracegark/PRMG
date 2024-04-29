@@ -27176,6 +27176,20 @@ ol ol {
 	opacity: 0.5;
 }
 
+.login-button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #007bff; /* Blue color, you can adjust */
+    color: #fff; /* White text color */
+    border-radius: 5px;
+    text-decoration: none; /* Remove underline */
+    transition: background-color 0.3s ease;
+}
+
+.login-button:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+}
+
 /*
 * @subsection   RD Google Map
 *
