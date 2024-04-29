@@ -125,50 +125,46 @@
     </section>
     <section class="section-75 section-md-100 section-lg-150">
       <div class="shell">
-        <section class="section-50 section-md-75 section-md-100 section-lg-120 section-xl-150">
-          <div class="shell text-left">
-            <h2><span class="small">Add a New Job</span>Please fill out your personal information to sign up for new job postings.</h2>
-            <form class="rd-mailform text-left" data-form-output="form-output-global" data-form-type="contact" method="post">
-              <div class="range offset-top-40 offset-md-top-60">
-                <div class="cell-lg-4 cell-md-6">
-                  <div class="form-group postfix-xl-right-40">
-                    <label class="form-label" for="job-name">Job Title *</label>
-                    <input class="form-control" id="job-name" type="text" name="name" data-constraints="@Required">
-                  </div>
-                  <div class="form-group postfix-xl-right-40">
-                    <label class="form-label" for="job-type">Job Type *</label>
-                    <input class="form-control" id="job-type" type="text" name="type"
-                      data-constraints="@Required">
-                  </div>
-                </div>
-                <div class="cell-lg-4 cell-md-6 offset-top-20 offset-md-top-0">
-                  <div class="form-group postfix-xl-right-40">
-                    <label class="form-label" for="job-link">Link *</label>
-                    <input class="form-control" id="job-link" type="link" name="link" data-constraints="@Required">
-                  </div>
-                </div>
-                <div class="cell-lg-4 cell-md-6 offset-top-20 offset-md-top-0">
-                    <div class="form-group postfix-xl-right-40">
-                      <label class="form-label" for="job-link">Location</label>
-                      <input class="form-control" id="job-link" type="text" name="location">
-                    </div>
-                  </div>
-                <div class="cell-lg-4 offset-top-20 offset-lg-top-0">
-                  <div class="form-group postfix-xl-right-40">
-                    <label class="form-label" for="job-desc">Job Description *</label>
-                    <textarea class="form-control" id="job-desc" name="desc" data-constraints="@Required"></textarea>
-                  </div>
-                </div>
-                
+          <section class="section-50 section-md-75 section-md-100 section-lg-120 section-xl-150">
+              <div class="shell text-left">
+                  <h2><span class="small">Add a New Job</span>Please fill out your personal information to sign up for new job postings.</h2>
+                  <form class="rd-mailform text-left" data-form-output="form-output-global" data-form-type="contact" method="post" action="add_business.php">
+                      <div class="range offset-top-40 offset-md-top-60">
+                          <div class="cell-lg-4 cell-md-6">
+                              <div class="form-group postfix-xl-right-40">
+                                  <label class="form-label" for="job-name">Job Title *</label>
+                                  <input class="form-control" id="job-name" type="text" name="name" required>
+                              </div>
+                              <div class="form-group postfix-xl-right-40">
+                                  <label class="form-label" for="job-type">Job Type *</label>
+                                  <input class="form-control" id="job-type" type="text" name="type" required>
+                              </div>
+                          </div>
+                          <div class="cell-lg-4 cell-md-6 offset-top-20 offset-md-top-0">
+                              <div class="form-group postfix-xl-right-40">
+                                  <label class="form-label" for="job-link">Link *</label>
+                                  <input class="form-control" id="job-link" type="url" name="link" required>
+                              </div>
+                          </div>
+                          <div class="cell-lg-4 cell-md-6 offset-top-20 offset-md-top-0">
+                              <div class="form-group postfix-xl-right-40">
+                                  <label class="form-label" for="job-location">Location</label>
+                                  <input class="form-control" id="job-location" type="text" name="location">
+                              </div>
+                          </div>
+                          <div class="cell-lg-4 offset-top-20 offset-lg-top-0">
+                              <div class="form-group postfix-xl-right-40">
+                                  <label class="form-label" for="job-desc">Job Description *</label>
+                                  <textarea class="form-control" id="job-desc" name="desc" required></textarea>
+                              </div>
+                          </div>
+                      </div>
+                      <button class="btn btn-form btn-default" type="submit">Post Job</button>
+                  </form>
               </div>
-              <button onclick="" class="btn btn-form btn-default" type="submit">Post Job</button>
-            </form>
-          </div>
-        </section>
-          
-        </div>
+          </section>
       </div>
-    </section>
+  </section>
 
 
 

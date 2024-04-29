@@ -135,26 +135,27 @@
         <link rel="stylesheet" href="styles.css">
     </head>
     <body>
-        <div id="job-update">
-            <div class="container">
-                <h2>Get Updates via Email</h2>
-                <p class="description">Sign up to receive updates on available jobs:</p>
-                <form id="subscribeForm">
-                    <label for="email">Email:</label><br>
-                    <input type="email" id="email" name="email" required><br><br>
-                    
-                    <p>Select the jobs you're interested in:</p>
-                    <div class="checkbox-container">
-                        <input type="checkbox" id="all" name="jobs" value="All">
-                        <label for="all">All</label><br><br>
-                    </div>
-                    
-                    <button type="submit">Subscribe</button>
-                </form>
-            </div>
-        </div>
-        <script src="script.js"></script>
-    </body>
+      <div id="job-update">
+          <div class="container">
+              <h2>Get Updates via Email</h2>
+              <p class="description">Sign up to receive updates on available jobs:</p>
+              <form id="subscribeForm" action="update_subscription.php" method="POST">
+                  <label for="email">Email:</label><br>
+                  <input type="email" id="email" name="email" required><br><br>
+                  
+                  <p>Select the jobs you're interested in:</p>
+                  <div class="checkbox-container">
+                      <input type="checkbox" id="all" name="jobs" value="All">
+                      <label for="all">All</label><br><br>
+                  </div>
+                  
+                  <button type="submit">Subscribe</button>
+              </form>
+          </div>
+      </div>
+      <script src="script.js"></script>
+  </body>
+  
     
     
 

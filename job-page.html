@@ -259,28 +259,36 @@
       <div class="container">
           <!-- Job Management Section -->
           <section>
-              <h2>Add New Job</h2>
-              <form id="jobForm">
-                  <label for="jobTitle">Job Title:</label>
-                  <input type="text" id="jobTitle" name="jobTitle" required>
-                  <label for="jobDescription">Job Description:</label>
-                  <textarea id="jobDescription" name="jobDescription" rows="4" required></textarea>
-                  <label for="jobLink">Job Link:</label>
-                  <input type="url" id="jobLink" name="jobLink" placeholder="https://example.com">
-                  <label for="jobLocation">Job Location:</label>
-                  <input type="text" id="jobLocation" name="jobLocation">
-                  <label for="jobType">Job Type:</label>
-                  <select id="jobType" name="jobType" class="job-type-select">
-                    <option value="full-time">Full-time</option>
-                    <option value="part-time">Part-time</option>
-                    <option value="contract">Contract</option>
-                  </select>
-                  <button type="submit">Add Job</button>
-              </form>
-              <hr>
-              <h2>Available Jobs</h2>
-              <div id="jobList"></div>
-          </section>
+            <h2>Add New Job</h2>
+            <form id="jobForm" action="add_business.php" method="post">
+                <label for="jobTitle">Job Title:</label>
+                <input type="text" id="jobTitle" name="name" required>
+                
+                <label for="jobDescription">Job Description:</label>
+                <textarea id="jobDescription" name="desc" rows="4" required></textarea>
+                
+                <label for="jobLink">Job Link:</label>
+                <input type="url" id="jobLink" name="link" placeholder="https://example.com">
+                
+                <label for="jobLocation">Job Location:</label>
+                <input type="text" id="jobLocation" name="location">
+                
+                <label for="jobType">Job Type:</label>
+                <select id="jobType" name="type" class="job-type-select">
+                    <option value="Full-time">Full-time</option>
+                    <option value="Part-time">Part-time</option>
+                    <option value="Contract">Contract</option>
+                </select>
+                
+                <button type="submit">Add Job</button>
+            </form>
+            <hr>
+            <h2>Available Jobs</h2>
+        <div id="jobList">
+            <?php include 'get_jobs.php'; ?>
+        </div>
+        </section>
+        
       </div>
   
       <script>
