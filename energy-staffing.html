@@ -91,14 +91,14 @@
                               </ul>
                           </li>
                           <li>
-                            <a href="https://www.facebook.com/sharer/sharer.php?u=https://example.com" target="_blank" rel="noopener noreferrer">
+                            <a href="https://www.facebook.com/primestaffingllc?mibextid=ZbWKwL" target="_blank" rel="noopener noreferrer">
                                 <i class="fab fa-facebook-f"></i>
                             </a>
                         </li>
                         <!-- Instagram icon -->
                         <li>
-                            <a href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer">
-                                <i class="fab fa-instagram"></i>
+                            <a href="https://www.indeed.com/cmp/Prime-Resources-Management-Group,llc?from=mobviewjob&tk=1hrp8cpe62ci400i&fromjk=5deb9ca59f62870e&attributionid=mobvjcmp" target="_blank" rel="noopener noreferrer">
+                                <i class="fa-regular fa-image"></i>
                             </a>
                         </li>
                         <!-- Copy link button -->
@@ -428,7 +428,72 @@
   <!-- Global Mailform Output-->
   <div class="snackbars" id="form-output-global"></div>
   <script src="js/core.min.js"></script>
-  <script src="js/script.js"></script>
+  <script src="js/script.js"></script><script>
+  function copyLink() {
+      // Get the current page URL
+      var url = window.location.href;
+
+      // Create a temporary textarea element
+      var textarea = document.createElement("textarea");
+      textarea.value = url;
+
+      // Append the textarea to the body
+      document.body.appendChild(textarea);
+
+      // Select the text within the textarea
+      textarea.select();
+
+      try {
+          // Copy the selected text to the clipboard
+          var successful = document.execCommand("copy");
+
+          if (successful) {
+              alert("Link copied to clipboard: " + url);
+          } else {
+              alert("Copy link failed. Please try again.");
+          }
+      } catch (error) {
+          console.error("Unable to copy link:", error);
+          alert("Copy link failed. Please try again.");
+      }
+
+      // Remove the temporary textarea
+      document.body.removeChild(textarea);
+  }
+</script>
+  <script>
+    function copyLink() {
+        // Get the current page URL
+        var url = window.location.href;
+  
+        // Create a temporary textarea element
+        var textarea = document.createElement("textarea");
+        textarea.value = url;
+  
+        // Append the textarea to the body
+        document.body.appendChild(textarea);
+  
+        // Select the text within the textarea
+        textarea.select();
+  
+        try {
+            // Copy the selected text to the clipboard
+            var successful = document.execCommand("copy");
+  
+            if (successful) {
+                alert("Link copied to clipboard: " + url);
+            } else {
+                alert("Copy link failed. Please try again.");
+            }
+        } catch (error) {
+            console.error("Unable to copy link:", error);
+            alert("Copy link failed. Please try again.");
+        }
+  
+        // Remove the temporary textarea
+        document.body.removeChild(textarea);
+    }
+  </script>
 </body>
 
 </html>
