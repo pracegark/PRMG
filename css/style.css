@@ -27176,6 +27176,14 @@ ol ol {
 	opacity: 0.5;
 }
 
+.wrapper #export-btn {
+	padding: 30px 40px;
+}
+
+.job-type-select {
+	border: 10px;
+	font-size: 16px;
+}
 
 #export-btn {
 	/* Optional styling for the button */
@@ -27183,7 +27191,8 @@ ol ol {
 	font-size: 16px;
 	background-color: green;
 	color: white;
-	border: none;
+	border: 10px;
+	border-radius: 10px;
 	cursor: pointer;
   }
 

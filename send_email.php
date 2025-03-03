@@ -11,7 +11,7 @@ $file_type = $_FILES['resume']['type'];
 $file_size = $_FILES['resume']['size'];
 
 // Set destination email address
-$to = 'pracegarker@gmail.com';
+$to = 'recruiter@primermg.com';
 
 // Set email subject
 $subject = $name . ' has sent you their resume';

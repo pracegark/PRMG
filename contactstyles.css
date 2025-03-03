@@ -1,0 +1,40 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Montserrat", sans-serif;
+}
+
+.contact-form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: white;
+    background-size: cover;
+    background-position: center;
+
+}
+
+.name {
+
+}
+
+.phone {
+
+}
+
+.wrapper #export-btn {
+	padding: 30px 40px;
+}
+
+#export-btn {
+	/* Optional styling for the button */
+	position: center !important;
+	font-size: 16px;
+	background-color: green;
+	color: white;
+	border: 10px;
+	border-radius: 10px;
+	cursor: pointer;
+  }
