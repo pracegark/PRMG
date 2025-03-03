@@ -305,6 +305,38 @@
     <!-- Global Mailform Output-->
     <div class="snackbars" id="form-output-global"></div>
     <script src="js/core.min.js"></script>
-    <script src="js/script.js"></script>
+    <script src="js/script.js"></script><script>
+  function copyLink() {
+      // Get the current page URL
+      var url = window.location.href;
+
+      // Create a temporary textarea element
+      var textarea = document.createElement("textarea");
+      textarea.value = url;
+
+      // Append the textarea to the body
+      document.body.appendChild(textarea);
+
+      // Select the text within the textarea
+      textarea.select();
+
+      try {
+          // Copy the selected text to the clipboard
+          var successful = document.execCommand("copy");
+
+          if (successful) {
+              alert("Link copied to clipboard: " + url);
+          } else {
+              alert("Copy link failed. Please try again.");
+          }
+      } catch (error) {
+          console.error("Unable to copy link:", error);
+          alert("Copy link failed. Please try again.");
+      }
+
+      // Remove the temporary textarea
+      document.body.removeChild(textarea);
+  }
+</script>
   </body>
 </html>
