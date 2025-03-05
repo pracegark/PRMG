@@ -2,6 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8">
+    <script src="function.js"></script>
     <meta http-equiv="X-UA-Compatible" content="IE-edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PRMG Login Page</title>
@@ -17,13 +18,24 @@
         </div>
         <h1>Login</h1>
         <div class="input-box">
-          <input type="text" placeholder="Username" required>
+          <input type="text" id="username" placeholder="Username" required>
         </div>
         <div class="input-box">
-          <input type="password" placeholder="Password" required>
+          <input type="password" id="password" placeholder="Password" required>
         </div>
-        <button type="submit" class="btn"> Login</button>
+        <button type="submit" class="btn" method="post" onclick="handleLogin()"> Login</button>
       </form>
     </div>
+    <script>
+      function handleLogin() {
+            let username = document.getElementById("username").value;
+            let password = document.getElementById("password").value;
+            if (username == 'jcastillo@primermg.com' && password == 'Prime#2025') {
+                login(username); // Call function from auth.js
+            } else {
+                alert("Please enter a correct username & password!");
+            }
+        }
+    </script>
   </body>
 </html>
