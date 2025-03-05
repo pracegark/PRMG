@@ -79,7 +79,6 @@
                                   <li><a href="contact-energy.html">ENERGY</a></li>
                                   <li><a href="contact-construction.html">CONSTRUCTION</a></li>
                                   <li><a href="contact-environmental.html">ENVIRONMENTAL</a></li>
-
                               </ul>
                           </li>
                           <li><a href="job-seeker.html">JOB SEEKER</a>
@@ -106,6 +105,9 @@
                                 <i class="fas fa-copy"></i>
                             </button>
                         </li>
+                        <li>
+                          <a href="login.html" class="login-button">LOGIN</a>
+                      </li>                      
                       </ul>
                   </div>
               </div>
@@ -117,13 +119,54 @@
       <div class="parallax-content section-top-75 section-md-top-150 section-lg-top-260">
         <div class="shell">
           <ul class="list-breadcrumb">
-            <li><a href="index.html">home</a></li>
-            <li><a href="staffing-solutions.html">Staffing Solutions</a></li>
+            <li><a href="job-seeker.html">Job Seeker</a></li>
 
           </ul>
         </div>
       </div>
     </section>
+    <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Contact Form</title>
+      <link rel="stylesheet" href="contactstyles.css">
+  </head>
+  <body>
+    <div class="form-container">
+        <div class="container">
+            <h2>Contact Form</h2>
+            <p class="description">Please input your contact information and message, and we will get back to you shortly.</p>
+            <form id="contact-form" action="add_contact.php" method="POST" enctype="multipart/form-data">
+                <label for="name">Name:</label><br>
+                <input type="text" id="name" name="name" required><br><br>
+                
+                <label for="email">Email:</label><br>
+                <input type="email" id="email" name="email" required><br><br>
+
+                <label for="phone">Phone Number:</label><br>
+                <input type="text" id="phone" name="phone" required><br><br>
+
+                <label for="jobType">Job Type:</label>
+                <select id="jobType" name="type" class="job-type-select">
+                    <option value="Full-time">Full Time</option>
+                    <option value="Part-time">Part Time</option>
+                    <option value="Contract">Contract</option>
+                </select>
+
+                <label for="message">Message:</label><br>
+                <textarea id="message" name="message" rows="4" required></textarea><br><br>    
+                
+                <label for="resume">Upload Resume (PDF, Word):</label><br>
+                <input type="file" id="resume" name="resume" accept=".pdf,.doc,.docx"><br><br>
+                
+                <button id="submit" type="submit">Submit</button>
+                <button id="export-btn">Export to Excel</button>
+            </form>
+        </div>
+    </div>
+  
+    
+
 
 
     <!-- our services-->
@@ -158,84 +201,14 @@
         </div>
       </div>
     </section>
-
-
-    <section class="section-75 section-md-100 section-lg-150">
-      <div class="shell">
-        <div class="range range-md-justify">
-          <div class="cell-md-8 cell-lg-7 cell-xl-6">
-            <div class="inset-md-right-30 inset-lg-right-0">
-              <h1>Staffing Solutions</h1>
-              <p>Prime Resources Management Group has served Louisiana since 2008, and provides staffing solutions to
-                many
-                different industries. We employ only the most skilled personnel available through our time-proven
-                recruiting methods and experience. </p>
-              <div class="well-custom">
-                <h5>SAFETY</h5>
-                <p class="Tighten">Prime Resources Management Group is committed to operating in a manner that protects
-                  the health and
-                  safety of employees and minimizes incidents, while performing quality work for customers in compliance
-                  with applicable laws and regulations governing occupational health and safety.
-                  <br /><br />
-                  We employ a full time safety representative who is responsible for
-                  satisfying customers
-                  with safety conscious employees. Prime Resources Management Group’s safety representative has the
-                  following
-                  qualifications: 10 years’ experience in Safety, 7 years’ experience in Safety Management, RSO
-                  (Radiation Safety Officer), Safety Instructor, Medic First Aid Instructor, 25 years Volunteer Fire
-                  Department, and 20 years Paramedic. Safety is part of the initial client relationship in having the
-                  safety representative meet with clients, tour client facilities, and discuss details with client
-                  safety staff to better understand the client’s specific needs in operations. This allows us to better
-                  prepare the employees to enter into a specific work environment and safely perform
-                  the required job task.
-                  <br /><br />
-                  Prior to placement, Prime Resources Management Group performs required pre-hire screening, as
-                  requested
-                  by clients, that
-                  includes, but is not limited to:
-                  Hazmat * PHMSA * Drug * Alcohol * DOT and Non DOT * Routine fit for duty * Pulmonary Function Testing
-                  * Respiratory Fit Testing.</p>
-
-              </div>
-
-            </div>
-          </div>
-          <div class="cell-md-4 cell-lg-4 cell-xl-3">
-            <div class="well-custom-1">
-              <h4 class="text-regular">Our Resources</h4>
-              <ul class="list-xs list-marked">
-                <li>Screening</li>
-                <li>Craftsmen</li>
-                <li>Administrative Personnel</li>
-                <li>Physical Laborers</li>
-                <li>Maintenance Workers</li>
-                <li>Energy Industry Personnel</li>
-                <li>Environmental Personnel</li>
-                <li>Construction Laborers</li>
-
-                <li>Agricultural Workers</li>
-                <li>Much more!</li>
-
-
-
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-
-    <!-- Page Footer-->
     <footer class="page-footer page-footer-secondary">
       <section class="section-75 section-sm-80 section-md-100 section-xl-150">
         <div class="shell">
           <div class="range text-sm-left spacing-55">
             <div class="cell-sm-6 cell-lg-4"><a href="index.html"><img class="img-responsive"
                   src="images/brand-white-132x51.png" alt="" width="132" height="51" /></a>
-              <p class="offset-top-20 offset-md-top-35">Prime Resources Management Group provides staffing and
-                management services. We are based in Broussard, Louisiana, and services all areas of the United States
-                with concentrations on the Gulf Coast.</p>
+              <p class="offset-top-20 offset-md-top-35">Prime Resources Management Group provides staffing and management
+                services to the Lafayette, Louisiana area. </p>
             </div>
             <div class="cell-sm-6 cell-lg-4">
               <div class="inset-lg-right-30"><span
@@ -257,24 +230,24 @@
                     </div>
                   </li>
                   <!--                     <li>
-                      <div class="unit unit-horizontal unit-spacing-xs">
-                        <div class="unit-left"><span class="icon icon-primary fa-envelope"></span></div>
-                        <div class="unit-body"><a class="text-white" href="mailto:#">mail@demolink.org</a></div>
-                      </div>
-                    </li> -->
+                        <div class="unit unit-horizontal unit-spacing-xs">
+                          <div class="unit-left"><span class="icon icon-primary fa-envelope"></span></div>
+                          <div class="unit-body"><a class="text-white" href="mailto:#">mail@demolink.org</a></div>
+                        </div>
+                      </li> -->
                 </ul>
               </div>
             </div>
             <!--     <div class="cell-sm-6 cell-lg-4"><span class="small text-spacing-340 text-white text-uppercase text-bold">Newsletter signup</span>
-                <p class="offset-top-20">Enter your email address to get the latest news, events and special offers delivered right to your inbox.</p>
-                <form class="rd-mailform text-left rd-mailform-subscribe-default" data-form-output="form-output-global" data-form-type="subscribe" method="post" action="bat/rd-mailform.php">
-                  <div class="form-group">
-                    <label class="form-label form-label-subscribe" for="footer-subscribe-email">Enter your e-mail</label>
-                    <input class="form-control form-control-subscribe" id="footer-subscribe-email" type="email" name="email" data-constraints="@Email @Required">
-                  </div>
-                  <button class="btn btn-default" type="submit"></button>
-                </form>
-              </div> -->
+                  <p class="offset-top-20">Enter your email address to get the latest news, events and special offers delivered right to your inbox.</p>
+                  <form class="rd-mailform text-left rd-mailform-subscribe-default" data-form-output="form-output-global" data-form-type="subscribe" method="post" action="bat/rd-mailform.php">
+                    <div class="form-group">
+                      <label class="form-label form-label-subscribe" for="footer-subscribe-email">Enter your e-mail</label>
+                      <input class="form-control form-control-subscribe" id="footer-subscribe-email" type="email" name="email" data-constraints="@Email @Required">
+                    </div>
+                    <button class="btn btn-default" type="submit"></button>
+                  </form>
+                </div> -->
           </div>
         </div>
       </section>
@@ -283,14 +256,15 @@
           <div class="range range-sm-middle spacing-30">
             <div class="cell-sm-8 text-sm-left">
               <p class="small-xs">Copyright <span class="copyright-year"></span> Prime Resources Management Group | site
-                by :<a href="https://github.com/pracegark">Grace Ann Park</a></a>
+                by : <a href="https://github.com/pracegark">Grace Ann Park</a></a>
               </p>
             </div>
-
+  
           </div>
         </div>
       </section>
     </footer>
+
   </div>
   <!-- Global Mailform Output-->
   <div class="snackbars" id="form-output-global"></div>
