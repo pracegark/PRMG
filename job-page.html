@@ -3,7 +3,8 @@
 
 <head>
   <!-- Site Title-->
-  <title>Prime Resources Management Group | Staffing in Lafayette, LA</title>
+    <title>Prime Resources Management Group | Staffing in Lafayette, LA</title>
+  <script src="function.js"></script>
   <meta name="description"
     content="Prime Resources Management Group provides staffing solutions to several industries in Lafayette, Louisiana." />
 
@@ -24,7 +25,7 @@
 		<![endif]-->
 </head>
 
-<body>
+<body onload="checkLogin('addJob')">
   <!-- Page-->
   <div class="page text-center text-md-left">
     <div class="page-loader">
@@ -126,7 +127,8 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Prime Resources Management Group | Staffing in Lafayette, LA</title>
+          <title>Prime Resources Management Group | Staffing in Lafayette, LA</title>
+  <script src="function.js"></script>
         <style>
             .job-management {
                 font-family: 'Montserrat', sans-serif;
@@ -273,19 +275,12 @@
                 <input type="text" id="jobLocation" name="location">
                 
                 <label for="jobType">Job Type:</label>
-                <select id="jobType" name="type" class="job-type-select">
-                    <option value="Full-time">Full-time</option>
-                    <option value="Part-time">Part-time</option>
-                    <option value="Contract">Contract</option>
-                </select>
+                <input type="text" id="jobType" name="type">
                 
-                <button type="submit">Add Job</button>
+                <button onclick="add_job.php" type="submit">Add Job</button>
             </form>
             <hr>
             <h2>Available Jobs</h2>
-        <div id="jobList">
-            <?php include 'get_jobs.php'; ?>
-        </div>
         </section>
         
       </div>

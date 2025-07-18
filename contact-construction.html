@@ -3,7 +3,8 @@
 
 <head>
   <!-- Site Title-->
-  <title>Prime Resources Management Group | Staffing in Lafayette, LA</title>
+    <title>Prime Resources Management Group | Staffing in Lafayette, LA</title>
+  <script src="function.js"></script>
   <meta name="description"
     content="Prime Resources Management Group provides staffing solutions to several industries in Lafayette, Louisiana." />
 
@@ -24,7 +25,7 @@
 		<![endif]-->
 </head>
 
-<body>
+<body onload="checkLogin('')">
   <!-- Page-->
   <div class="page text-center text-md-left">
     <div class="page-loader">
@@ -105,6 +106,10 @@
                                 <i class="fas fa-copy"></i>
                             </button>
                         </li>
+                        <li>
+                          <a id="logout" class="login-button">Hi, Juan</a>
+                          <a id="loginButton" href="login.html" class="login-button">LOGIN</a>
+                        </li> 
                       </ul>
                   </div>
               </div>

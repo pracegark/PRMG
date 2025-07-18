@@ -10,7 +10,7 @@
   </head>
   <body>
     <div class="wrapper">
-      <form action="index.html">
+      <form action="login.php">
         <div class="return">
           <a class="brand-name" href="index.html">
             <img src="images/brand-white-132x51.png" alt="" width="132" height="51"/>
@@ -29,8 +29,7 @@
     <script>
       function handleLogin() {
             let username = document.getElementById("username").value;
-            let password = document.getElementById("password").value;
-            if (username == 'jcastillo@primermg.com' && password == 'Prime#2025') {
+            if (username == 'jcastillo@primermg.com') {
                 login(username); // Call function from auth.js
             } else {
                 alert("Please enter a correct username & password!");

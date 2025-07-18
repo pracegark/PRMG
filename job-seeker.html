@@ -3,7 +3,8 @@
 
 <head>
   <!-- Site Title-->
-  <title>Prime Resources Management Group | Staffing in Lafayette, LA</title>
+    <title>Prime Resources Management Group | Staffing in Lafayette, LA</title>
+  <script src="function.js"></script>
   <meta name="description"
     content="Prime Resources Management Group provides staffing solutions to several industries in Lafayette, Louisiana." />
 
@@ -24,7 +25,7 @@
 		<![endif]-->
 </head>
 
-<body>
+<body onload="checkLogin('jobSeeker')">
   <!-- Page-->
   <div class="page text-center text-md-left">
     <div class="page-loader">
@@ -106,6 +107,10 @@
                             </button>
                         </li>
                         <li>
+                          <a id="logout" class="login-button">Hi, Juan</a>
+                          <a id="loginButton" href="login.html" class="login-button">LOGIN</a>
+                        </li> 
+                        <li>
                           <a href="login.html" class="login-button">LOGIN</a>
                       </li>                      
                       </ul>
@@ -131,27 +136,23 @@
       <title>Contact Form</title>
       <link rel="stylesheet" href="contactstyles.css">
   </head>
-  <body>
+  <body onload="checkLogin('jobSeeker')">
     <div class="form-container">
         <div class="container">
             <h2>Contact Form</h2>
             <p class="description">Please input your contact information and message, and we will get back to you shortly.</p>
             <form id="contact-form" action="add_contact.php" method="POST" enctype="multipart/form-data">
-                <label for="name">Name:</label><br>
-                <input type="text" id="name" name="name" required><br><br>
+                <label for="name">First Name:</label><br>
+                <input type="text" id="name" name="name" required><br>
+
+                <label for="name">Last Name:</label><br>
+                <input type="text" id="name" name="name" required><br>
                 
                 <label for="email">Email:</label><br>
-                <input type="email" id="email" name="email" required><br><br>
+                <input type="email" id="email" name="email" required><br>
 
                 <label for="phone">Phone Number:</label><br>
-                <input type="text" id="phone" name="phone" required><br><br>
-
-                <label for="jobType">Job Type:</label>
-                <select id="jobType" name="type" class="job-type-select">
-                    <option value="Full-time">Full Time</option>
-                    <option value="Part-time">Part Time</option>
-                    <option value="Contract">Contract</option>
-                </select>
+                <input type="text" id="phone" name="phone" required><br>
 
                 <label for="message">Message:</label><br>
                 <textarea id="message" name="message" rows="4" required></textarea><br><br>    

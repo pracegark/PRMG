@@ -4,6 +4,7 @@
 <head>
   <!-- Site Title-->
   <title>Prime Resources Management Group | Staffing in Lafayette, LA</title>
+  <script src="function.js"></script>
   <meta name="description"
     content="Prime Resources Management Group provides staffing solutions to several industries in Lafayette, Louisiana." />
 
@@ -22,9 +23,41 @@
     <div style="background: #212121; padding: 10px 0; box-shadow: 3px 3px 5px 0 rgba(0,0,0,.3); clear: both; text-align:center; position: relative; z-index:1;"><a href="http://windows.microsoft.com/en-US/internet-explorer/"><img src="images/ie8-panel/warning_bar_0000_us.jpg" border="0" height="42" width="820" alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today."></a></div>
     <script src="js/html5shiv.min.js"></script>
 		<![endif]-->
-</head>
+    <style>
+      /* Simple toast style */
+      #toast {
+        visibility: hidden;
+        min-width: 250px;
+        background-color: #f44336; /* red */
+        color: white;
+        text-align: center;
+        border-radius: 5px;
+        padding: 16px;
+        position: fixed;
+        bottom: 30px;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 1;
+      }
+  
+      #toast.show {
+        visibility: visible;
+        animation: fadein 0.5s, fadeout 0.5s 2.5s;
+      }
+  
+      @keyframes fadein {
+        from { bottom: 0; opacity: 0; }
+        to { bottom: 30px; opacity: 1; }
+      }
+  
+      @keyframes fadeout {
+        from { bottom: 30px; opacity: 1; }
+        to { bottom: 0; opacity: 0; }
+      }
+    </style>
+  </head>
 
-<body>
+<body onload="checkLogin('index')">
   <!-- Page-->
   <div class="page text-center text-md-left">
     <div class="page-loader">
@@ -106,6 +139,10 @@
                             </button>
                         </li>
                         <li>
+                          <a id="logout" class="login-button">Hi, Juan</a>
+                          <a id="loginButton" href="login.html" class="login-button">LOGIN</a>
+                        </li> 
+                        <li>
                           <a href="login.html" class="login-button">LOGIN</a>
                       </li>                      
                       </ul>
@@ -132,7 +169,7 @@
         <title>Email Updates</title>
         <link rel="stylesheet" href="styles.css">
     </head>
-    <body>
+    <body onload="checkLogin('index')">
       <div id="job-update">
           <div class="container">
               <h2>Get Updates via Email</h2>
@@ -141,15 +178,10 @@
                   <label for="email">Email:</label><br>
                   <input type="email" id="email" name="email" required><br><br>
                   
-                  <p>Select the jobs you're interested in:</p>
-                  <div class="checkbox-container">
-                      <input type="checkbox" id="all" name="jobs" value="All">
-                      <label for="all">All</label><br><br>
-                  </div>
-                  
                   <button type="submit">Subscribe</button>
               </form>
           </div>
+          <div id="toast">This is a duplicate email.</div>
       </div>
       <script src="script.js"></script>
   </body>
@@ -230,6 +262,43 @@
       document.body.removeChild(textarea);
   }
 </script>
+
+<script>
+  const form = document.getElementById("emailForm");
+  const toast = document.getElementById("toast");
+
+  form.addEventListener("submit", async function (e) {
+    e.preventDefault();
+    const email = document.getElementById("email").value;
+
+    const formData = new FormData();
+    formData.append("email", email);
+
+    const res = await fetch("add_email.php", {
+      method: "POST",
+      body: formData,
+    });
+
+    const text = await res.text();
+
+    if (text === "OK") {
+      form.reset(); // clear form on success
+    } else if (text === "DUPLICATE") {
+      showToast("This is a duplicate email.");
+    } else {
+      showToast("An error occurred.");
+    }
+  });
+
+  function showToast(message) {
+    toast.textContent = message;
+    toast.className = "show";
+    setTimeout(() => {
+      toast.className = toast.className.replace("show", "");
+    }, 3000);
+  }
+</script>
+
 </body>
 
 </html>
