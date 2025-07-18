@@ -86,7 +86,6 @@
                               <!-- RD Navbar Dropdown-->
                               <ul class="rd-navbar-dropdown">
                                   <li><a href="job-page.html">JOB BOARD</a></li>
-                                  <li><a href="job-update.html">JOB UPDATE</a></li>
                               </ul>
                           </li>
                           <li>
@@ -106,10 +105,6 @@
                                 <i class="fas fa-copy"></i>
                             </button>
                         </li>
-                        <li>
-                          <a id="logout" class="login-button">Hi, Juan</a>
-                          <a id="loginButton" href="login.html" class="login-button">LOGIN</a>
-                        </li> 
                         <li>
                           <a href="login.html" class="login-button">LOGIN</a>
                       </li>                      
@@ -141,7 +136,7 @@
         <div class="container">
             <h2>Contact Form</h2>
             <p class="description">Please input your contact information and message, and we will get back to you shortly.</p>
-            <form id="contact-form" action="add_contact.php" method="POST" enctype="multipart/form-data">
+            <form id="contact-form" action="send_email.php" method="POST" enctype="multipart/form-data">
                 <label for="name">First Name:</label><br>
                 <input type="text" id="name" name="name" required><br>
 
@@ -157,18 +152,11 @@
                 <label for="message">Message:</label><br>
                 <textarea id="message" name="message" rows="4" required></textarea><br><br>    
                 
-                <label for="resume">Upload Resume (PDF, Word):</label><br>
-                <input type="file" id="resume" name="resume" accept=".pdf,.doc,.docx"><br><br>
-                
                 <button id="submit" type="submit">Submit</button>
-                <button id="export-btn">Export to Excel</button>
+                <!-- <button id="export-btn">Export to Excel</button> -->
             </form>
         </div>
     </div>
-  
-    
-
-
 
     <!-- our services-->
     <section class="section-75 section-md-120 section-lg-120 section-xl-150 bg-table">
