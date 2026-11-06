@@ -17,7 +17,7 @@
     <script src="js/html5shiv.min.js"></script>
 		<![endif]-->
   </head>
-  <body onload="checkLogin('index')">
+  <body>
     <!-- Page-->
     <div class="page text-center text-md-left">
       <div class="page-loader">
@@ -39,7 +39,7 @@
               <div class="countdown" data-type="until" data-time="31 Dec 2018 16:00" data-format="dhms"></div>
               <p class="offset-top-40">Our website is under construction, we are working very hard to give you the best experience on our new web site.</p>
               <h2>Stay ready, we`re launching soon</h2>
-              <form class="rd-mailform text-left rd-mailform-subscribe" data-form-output="form-output-global" data-form-type="subscribe" method="post" action="bat/rd-mailform.php">
+              <form class="rd-mailform text-left rd-mailform-subscribe" data-form-output="form-output-global" data-form-type="subscribe">
                 <div class="form-group">
                   <label class="form-label" for="footer-subscribel-email">Enter your e-mail</label>
                   <input class="form-control" id="footer-subscribel-email" type="email" name="email" data-constraints="@Email @Required">
@@ -55,38 +55,6 @@
     <!-- Global Mailform Output-->
     <div class="snackbars" id="form-output-global"></div>
     <script src="js/core.min.js"></script>
-    <script src="js/script.js"></script><script>
-  function copyLink() {
-      // Get the current page URL
-      var url = window.location.href;
-
-      // Create a temporary textarea element
-      var textarea = document.createElement("textarea");
-      textarea.value = url;
-
-      // Append the textarea to the body
-      document.body.appendChild(textarea);
-
-      // Select the text within the textarea
-      textarea.select();
-
-      try {
-          // Copy the selected text to the clipboard
-          var successful = document.execCommand("copy");
-
-          if (successful) {
-              alert("Link copied to clipboard: " + url);
-          } else {
-              alert("Copy link failed. Please try again.");
-          }
-      } catch (error) {
-          console.error("Unable to copy link:", error);
-          alert("Copy link failed. Please try again.");
-      }
-
-      // Remove the temporary textarea
-      document.body.removeChild(textarea);
-  }
-</script>
+    <script src="js/script.js"></script>
   </body>
 </html>

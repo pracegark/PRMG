@@ -1,0 +1,58 @@
+<header class="page-head page-head-secondary">
+  <div class="rd-navbar-wrap">
+    <nav class="rd-navbar rd-navbar-classic" data-stick-up-clone="false" data-layout="rd-navbar-fixed"
+      data-md-layout="rd-navbar-static" data-md-device-layout="rd-navbar-fixed"
+      data-lg-layout="rd-navbar-static" data-lg-device-layout="rd-navbar-static"
+      data-md-stick-up-offset="10px" data-lg-stick-up-offset="40px">
+      <div class="rd-navbar-inner">
+        <div class="rd-navbar-panel">
+          <button class="rd-navbar-toggle" data-rd-navbar-toggle=".rd-navbar-nav-wrap"><span></span></button>
+          <div class="rd-navbar-brand">
+            <a class="brand-name" href="{{ROOT}}index.html">
+              <img src="{{ROOT}}images/brand-white-132x51.png" alt="Prime Resources Management Group" width="132" height="51" />
+            </a>
+          </div>
+        </div>
+        <div class="rd-navbar-nav-wrap">
+          <ul class="rd-navbar-nav">
+            <li><a href="{{ROOT}}index.html">HOME</a></li>
+            <li>
+              <a href="{{ROOT}}staffing-solutions.html">STAFFING SOLUTIONS</a>
+              <ul class="rd-navbar-dropdown">
+                <li><a href="{{ROOT}}energy-staffing.html">ENERGY</a></li>
+                <li><a href="{{ROOT}}construction-staffing.html">CONSTRUCTION</a></li>
+                <li><a href="{{ROOT}}environmental-staffing.html">ENVIRONMENTAL</a></li>
+                <li><a href="{{ROOT}}other-staffing.html">OTHER</a></li>
+                <li><a href="{{ROOT}}safety.html">SAFETY</a></li>
+              </ul>
+            </li>
+            <li><a href="{{ROOT}}about.html">ABOUT US</a></li>
+            <li><a href="{{ROOT}}contacts.html">CONTACT</a></li>
+            <li>
+              <a href="{{ROOT}}job-seeker.html">JOB SEEKER</a>
+              <ul class="rd-navbar-dropdown">
+                <li><a href="{{ROOT}}job-page.html">JOB BOARD</a></li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </div>
+</header>
+<script>
+  (() => {
+    const currentPath = window.location.pathname.replace(/\/$/, "/index.html");
+    const links = document.querySelectorAll(".rd-navbar-nav > li > a[href]");
+    links.forEach((link) => {
+      const targetPath = new URL(link.getAttribute("href"), window.location.href).pathname;
+      const parent = link.closest("li");
+      if (targetPath === currentPath) parent.classList.add("active");
+      parent.querySelectorAll(".rd-navbar-dropdown a[href]").forEach((childLink) => {
+        if (new URL(childLink.getAttribute("href"), window.location.href).pathname === currentPath) {
+          parent.classList.add("active");
+        }
+      });
+    });
+  })();
+</script>

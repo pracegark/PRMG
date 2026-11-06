@@ -1,22 +1,4 @@
 
-function checkLogin(pageName) {
-    const user = localStorage.getItem("loggedInUser");
-
-    if (user) {
-            document.getElementById("loginButton").style.display = "none"
-        
-    } else
-        if ((pageName = 'index') || (pageName = '')) {
-            document.getElementById("logout").style.display="none"
-        } else if (pageName = 'addJob') {
-            document.getElementById("logout").style.display="none"
-            document.getElementById("add-job-section").style.display="none"
-        } else if (pageName = 'jobSeeker') {
-            document.getElementById("logout").style.display="none"
-            document.getElementById("export-btn").style.display = "none"
-        }
-}
-
 function addJobLogin() {
     const user = localStorage.getItem
 }
@@ -31,37 +13,7 @@ function logout() {
     window.location.href = "login.html"; // Redirect after logout
 }
 
-function copyLink() {
-    // Get the current page URL
-    var url = window.location.href;
 
-    // Create a temporary textarea element
-    var textarea = document.createElement("textarea");
-    textarea.value = url;
-
-    // Append the textarea to the body
-    document.body.appendChild(textarea);
-
-    // Select the text within the textarea
-    textarea.select();
-
-    try {
-        // Copy the selected text to the clipboard
-        var successful = document.execCommand("copy");
-
-        if (successful) {
-            alert("Link copied to clipboard: " + url);
-        } else {
-            alert("Copy link failed. Please try again.");
-        }
-    } catch (error) {
-        console.error("Unable to copy link:", error);
-        alert("Copy link failed. Please try again.");
-    }
-
-    // Remove the temporary textarea
-    document.body.removeChild(textarea);
-}
 
         function exportToExcel() {
             // Collect form data
@@ -90,5 +42,3 @@ function copyLink() {
                 document.body.removeChild(link);
             }
         }
-
-document.addEventListener("DOMContentLoaded", checkLogin);

@@ -17,7 +17,7 @@
     <script src="js/html5shiv.min.js"></script>
 		<![endif]-->
   </head>
-  <body onload="checkLogin('index')">
+  <body>
     <!-- Page-->
     <div class="page text-center text-md-left">
       <div class="page-loader">
@@ -32,60 +32,7 @@
         </div>
       </div>
       <!-- Page Header-->
-      <header class="page-head">
-        <!-- RD Navbar-->
-        <div class="rd-navbar-wrap">
-          <nav class="rd-navbar rd-navbar-default" data-stick-up-clone="true" data-layout="rd-navbar-fixed" data-md-layout="rd-navbar-static" data-md-device-layout="rd-navbar-fixed" data-lg-layout="rd-navbar-static" data-lg-device-layout="rd-navbar-static" data-lg-stick-up-offset="40px">
-            <div class="rd-navbar-inner">
-              <!-- RD Navbar Panel-->
-              <div class="rd-navbar-panel">
-                <!-- RD Navbar Toggle-->
-                <button class="rd-navbar-toggle" data-rd-navbar-toggle=".rd-navbar-nav-wrap"><span></span></button>
-                <!-- RD Navbar Brand-->
-                <div class="rd-navbar-brand"><a class="brand-name" href="index.html"><img src="images/brand-132x51.png" alt="" width="132" height="51"/><img src="images/brand-white-132x51.png" alt="" width="132" height="51"/></a></div>
-              </div>
-              <div class="rd-navbar-nav-wrap">
-                <!-- RD Navbar Nav-->
-                <ul class="rd-navbar-nav">
-                  <li><a href="index.html">Home</a></li>
-                  <li><a href="services.html">Services</a>
-                    <!-- RD Navbar Dropdown-->
-                    <ul class="rd-navbar-dropdown">
-                      <li><a href="single-service.html">Single Service</a></li>
-                    </ul>
-                  </li>
-                  <li><a href="#">Media</a>
-                    <ul class="rd-navbar-dropdown">
-                      <li><a href="blog-grid.html">Grid Blog</a></li>
-                      <li><a href="blog-post.html">Post Page</a></li>
-                      <li><a href="in-the-news.html">In the News</a></li>
-                    </ul>
-                  </li>
-                  <li><a href="careers.html">Careers</a></li>
-                  <li class="active"><a href="about.html">About Us</a>
-                    <!-- RD Navbar Dropdown-->
-                    <ul class="rd-navbar-dropdown">
-                      <li><a href="history.html">History</a></li>
-                      <li><a href="our-team.html">Our team</a></li>
-                      <li><a href="team-member.html">Team Member</a></li>
-                      <li><a href="projects-padding.html">Padding Projects</a></li>
-                      <li><a href="project-single.html">Single Project</a></li>
-                    </ul>
-                  </li>
-                  <li><a href="contacts.html">Contact us</a></li>
-                  <li><a href="#">Pages</a>
-                    <ul class="rd-navbar-dropdown">
-                      <li><a href="page-404.html">Page 404</a></li>
-                      <li><a href="coming-soon.html">Coming Soon</a></li>
-                      <li><a href="search-results.html">Search Results</a></li>
-                    </ul>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </nav>
-        </div>
-      </header>
+      <!-- SHARED_SITE_HEADER -->
       <!-- Classic Breadcrumbs-->
       <section class="breadcrumb-classic parallax-container" data-parallax-img="images/breadcrumbs-parallax-03.jpg">
         <div class="parallax-content section-top-75 section-md-top-150 section-lg-top-260">
@@ -162,101 +109,11 @@
         </div>
       </section>
       <!-- Page Footer-->
-      <footer class="page-footer page-footer-secondary">
-        <section class="section-75 section-sm-80 section-md-100 section-xl-150">
-          <div class="shell">
-            <div class="range text-sm-left spacing-55">
-              <div class="cell-sm-6 cell-lg-4"><a href="index.html"><img class="img-responsive" src="images/brand-white-132x51.png" alt="" width="132" height="51"/></a>
-                <p class="offset-top-20 offset-md-top-35">M&G provides a full range of business consulting & advisory services to small, medium, and international companies worldwide. We are one of the world's leading management consulting firms where innovations and experience drive your success.</p>
-              </div>
-              <div class="cell-sm-6 cell-lg-4">
-                <div class="inset-lg-right-30"><span class="small text-spacing-340 text-white text-uppercase text-bold">CONTACT INFO</span>
-                  <p class="offset-top-20">You can always contact us via email or phone. Get in touch with us today!</p>
-                  <ul class="list offset-top-20 text-left">
-                    <li>
-                      <div class="unit unit-horizontal unit-spacing-xs">
-                        <div class="unit-left"><span class="icon icon-primary fa-map-marker"></span></div>
-                        <div class="unit-body"><a class="text-white" href="#">1901 Avenue of the Stars Suite 200<br class="veil reveal-sm-block">	San Diego, CA 90067</a></div>
-                      </div>
-                    </li>
-                    <li>
-                      <div class="unit unit-horizontal unit-spacing-xs">
-                        <div class="unit-left"><span class="icon icon-primary fa-phone"></span></div>
-                        <div class="unit-body"><a class="text-white" href="tel:#">646-325-0357</a></div>
-                      </div>
-                    </li>
-                    <li>
-                      <div class="unit unit-horizontal unit-spacing-xs">
-                        <div class="unit-left"><span class="icon icon-primary fa-envelope"></span></div>
-                        <div class="unit-body"><a class="text-white" href="mailto:#">mail@demolink.org</a></div>
-                      </div>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-              <div class="cell-sm-6 cell-lg-4"><span class="small text-spacing-340 text-white text-uppercase text-bold">Newsletter signup</span>
-                <p class="offset-top-20">Enter your email address to get the latest news, events and special offers delivered right to your inbox.</p>
-                <form class="rd-mailform text-left rd-mailform-subscribe-default" data-form-output="form-output-global" data-form-type="subscribe" method="post" action="bat/rd-mailform.php">
-                  <div class="form-group">
-                    <label class="form-label form-label-subscribe" for="footer-subscribe-email">Enter your e-mail</label>
-                    <input class="form-control form-control-subscribe" id="footer-subscribe-email" type="email" name="email" data-constraints="@Email @Required">
-                  </div>
-                  <button class="btn btn-default" type="submit"></button>
-                </form>
-              </div>
-            </div>
-          </div>
-        </section>
-        <section class="section-25 bg-gray-base">
-          <div class="shell">
-            <div class="range range-sm-middle spacing-30">
-              <div class="cell-sm-8 text-sm-left">
-                <p class="small-xs">Copyright	<span class="copyright-year"></span>	All rights reserved by M&G	.	
-                </p>
-              </div>
-              <div class="cell-sm-4 text-sm-right">
-                <p class="small-xs"><a class="text-white" href="privacy.html">Privacy Policy</a></p>
-              </div>
-            </div>
-          </div>
-        </section>
-      </footer>
+      <!-- SHARED_SITE_FOOTER -->
     </div>
     <!-- Global Mailform Output-->
     <div class="snackbars" id="form-output-global"></div>
     <script src="js/core.min.js"></script>
-    <script src="js/script.js"></script><script>
-  function copyLink() {
-      // Get the current page URL
-      var url = window.location.href;
-
-      // Create a temporary textarea element
-      var textarea = document.createElement("textarea");
-      textarea.value = url;
-
-      // Append the textarea to the body
-      document.body.appendChild(textarea);
-
-      // Select the text within the textarea
-      textarea.select();
-
-      try {
-          // Copy the selected text to the clipboard
-          var successful = document.execCommand("copy");
-
-          if (successful) {
-              alert("Link copied to clipboard: " + url);
-          } else {
-              alert("Copy link failed. Please try again.");
-          }
-      } catch (error) {
-          console.error("Unable to copy link:", error);
-          alert("Copy link failed. Please try again.");
-      }
-
-      // Remove the temporary textarea
-      document.body.removeChild(textarea);
-  }
-</script>
+    <script src="js/script.js"></script>
   </body>
 </html>
