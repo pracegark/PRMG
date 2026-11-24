@@ -1,4 +1,15 @@
 (() => {
+  const isLocalSite = ["localhost", "127.0.0.1", "[::1]"].includes(window.location.hostname);
+  const apiBase = isLocalSite
+    ? `${window.location.origin}/api`
+    : (window.PRMG_API_BASE_URL || "https://ntd69d98a8.execute-api.us-east-2.amazonaws.com");
+  const adminTokenKey = "prmg-admin-session-token";
+  const adminToken = () => sessionStorage.getItem(adminTokenKey) || "";
+  const apiHeaders = (headers = {}) => ({
+    "Content-Type": "application/json",
+    ...(adminToken() ? { Authorization: `Bearer ${adminToken()}` } : {}),
+    ...headers
+  });
   const overlay = document.getElementById("admin-login-overlay");
   const panel = document.getElementById("admin-panel");
   const loginForm = document.getElementById("admin-login-form");
@@ -44,10 +55,10 @@
   let outreachLookupSequence = 0;
 
   async function api(path, options = {}) {
-    const response = await fetch(`/api${path}`, {
+    const response = await fetch(`${apiBase}${path}`, {
       credentials: "same-origin",
       ...options,
-      headers: { "Content-Type": "application/json", ...(options.headers || {}) }
+      headers: apiHeaders(options.headers || {})
     });
     const data = await response.json().catch(() => ({}));
     if (!response.ok) throw new Error(data.message || "Something went wrong. Please try again.");
@@ -55,6 +66,7 @@
   }
 
   function setAuthenticated(authenticated) {
+    if (!authenticated) sessionStorage.removeItem(adminTokenKey);
     overlay.hidden = authenticated;
     panel.classList.toggle("admin-blurred", !authenticated);
     logoutButton.hidden = !authenticated;
@@ -345,7 +357,7 @@
     if (filters.get("from")) params.set("from", filters.get("from"));
     if (filters.get("to")) params.set("to", filters.get("to"));
     try {
-      const response = await fetch(`/api/admin/outreach-recipients?${params}`, { credentials: "same-origin" });
+      const response = await fetch(`${apiBase}/admin/outreach-recipients?${params}`, { credentials: "same-origin", headers: apiHeaders() });
       const result = await response.json().catch(() => ({}));
       if (!response.ok) {
         if (response.status === 401) setAuthenticated(false);
@@ -383,10 +395,11 @@
     const submit = loginForm.querySelector("button[type='submit']");
     submit.disabled = true;
     try {
-      await api("/admin/login", { method: "POST", body: JSON.stringify({
+      const session = await api("/admin/login", { method: "POST", body: JSON.stringify({
         username: loginForm.elements.username.value,
         password: loginForm.elements.password.value
       }) });
+      if (session.token) sessionStorage.setItem(adminTokenKey, session.token);
       loginForm.reset();
       setAuthenticated(true);
     } catch (error) {
@@ -398,7 +411,7 @@
 
   logoutButton.addEventListener("click", async () => {
     try { await api("/admin/logout", { method: "POST", body: "{}" }); }
-    finally { setAuthenticated(false); }
+    finally { sessionStorage.removeItem(adminTokenKey); setAuthenticated(false); }
   });
 
   jobForm.addEventListener("submit", async (event) => {
@@ -490,7 +503,7 @@
       return;
     }
     try {
-      const response = await fetch(`/api/admin/contacts.csv${params.size ? `?${params}` : ""}`, { credentials: "same-origin" });
+      const response = await fetch(`${apiBase}/admin/contacts.csv${params.size ? `?${params}` : ""}`, { credentials: "same-origin", headers: apiHeaders() });
       if (!response.ok) {
         const error = await response.json().catch(() => ({}));
         if (response.status === 401) setAuthenticated(false);
@@ -516,5 +529,8 @@
     }
   });
 
-  api("/admin/session").then((session) => setAuthenticated(session.authenticated)).catch(() => setAuthenticated(false));
+  api("/admin/session").then((session) => {
+    if (!session.authenticated) sessionStorage.removeItem(adminTokenKey);
+    setAuthenticated(session.authenticated);
+  }).catch(() => setAuthenticated(false));
 })();

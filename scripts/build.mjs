@@ -4,6 +4,10 @@ import { fileURLToPath } from "node:url";
 
 const projectRoot = resolve(fileURLToPath(new URL("..", import.meta.url)));
 const outputRoot = join(projectRoot, "dist");
+const publicApiBaseUrl = String(process.env.PRMG_API_BASE_URL || "").trim().replace(/\/$/, "");
+if (process.env.AWS_BRANCH && !publicApiBaseUrl) {
+  throw new Error("Set the PRMG_API_BASE_URL Amplify environment variable for this branch before building.");
+}
 const excludedEntries = new Set([
   ".azure", ".git", ".github", ".vscode", "data", "dist", "node_modules", "partials", "scripts", "_notes",
   ".DS_Store", ".gitignore", "README.md", "local-api.mjs", "package-lock.json", "package.json", "server.mjs"
@@ -35,6 +39,10 @@ function buildHtml(directory) {
     const header = headerTemplate.replaceAll("{{ROOT}}", rootPrefix);
     const footer = footerTemplate.replaceAll("{{ROOT}}", rootPrefix);
     let builtHtml = source.replaceAll(headerMarker, header).replaceAll(footerMarker, footer);
+    const runtimeConfigPath = `${rootPrefix}js/deployment-config.js`;
+    if (!builtHtml.includes(runtimeConfigPath) && builtHtml.includes("</head>")) {
+      builtHtml = builtHtml.replace("</head>", `  <script src="${runtimeConfigPath}"></script>\n</head>`);
+    }
     const mobileStylesheetPath = `${rootPrefix}css/mobile.css`;
     if (!builtHtml.includes(mobileStylesheetPath) && builtHtml.includes("</head>")) {
       builtHtml = builtHtml.replace("</head>", `  <link rel="stylesheet" href="${mobileStylesheetPath}">\n</head>`);
@@ -44,4 +52,6 @@ function buildHtml(directory) {
 }
 
 buildHtml(outputRoot);
+const runtimeConfig = `window.PRMG_API_BASE_URL = ${JSON.stringify(publicApiBaseUrl).replaceAll("<", "\\u003c")};\n`;
+writeFileSync(join(outputRoot, "js", "deployment-config.js"), runtimeConfig);
 console.log(`Built site into ${relative(projectRoot, outputRoot)}.`);
