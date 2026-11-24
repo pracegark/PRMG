@@ -1,5 +1,7 @@
 # Prime Resources Management Group site
 
+For the full page inventory, legacy-page labels, application/API flow, database tables, local workflow, and current AWS deployment notes, see [the project guide](docs/project-guide.md).
+
 ## Run locally
 
 1. Install the project dependencies with `npm install`.

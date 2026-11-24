@@ -1,5 +1,7 @@
 # AWS application setup
 
+> **Current status (checked 2026-11-24):** The backend stack, PostgreSQL migration, API, and Amplify site configuration described below have already been deployed. The steps in “AWS deployment sequence” are historical setup notes; do not repeat them to create another stack. See [the project guide](project-guide.md) for the current deployment state. Do not add generated passwords, secret values, or temporary signed URLs to this document.
+
 The website remains on Amplify app `app6678` and keeps `primermg.com` as its custom domain. The API is a separate AWS service in `us-east-2`; it uses its AWS-provided `execute-api` address, so the domain and DNS records do not need to change.
 
 ## Prepared in this repository
