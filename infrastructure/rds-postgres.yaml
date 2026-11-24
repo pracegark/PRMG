@@ -1,0 +1,410 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: Private PostgreSQL database network for the PRMG API in us-east-2.
+
+Parameters:
+  VpcId:
+    Type: AWS::EC2::VPC::Id
+    Description: Existing VPC for websiteAPI and the database.
+  DatabaseSubnetIds:
+    Type: List<AWS::EC2::Subnet::Id>
+    Description: At least two subnets in different Availability Zones in the selected VPC.
+  RouteTableIds:
+    Type: String
+    Description: Comma-separated route table IDs used by the selected subnets.
+  ResumeBucketName:
+    Type: String
+    Default: prmg-resumes-605134439001
+    Description: Existing private S3 bucket used for resume uploads.
+  ApiArtifactBucket:
+    Type: String
+    Description: Existing S3 bucket in this region where the Lambda deployment ZIP is uploaded.
+  ApiArtifactKey:
+    Type: String
+    Default: deployment/prmg-api.zip
+    Description: Object key for the Lambda deployment ZIP.
+  DBInstanceClass:
+    Type: String
+    Default: db.t4g.micro
+    AllowedValues:
+      - db.t4g.micro
+      - db.t4g.small
+      - db.t3.micro
+      - db.t3.small
+  DBAllocatedStorage:
+    Type: Number
+    Default: 20
+    MinValue: 20
+    MaxValue: 1000
+  DBName:
+    Type: String
+    Default: prmg
+    AllowedPattern: '[a-zA-Z][a-zA-Z0-9]*'
+    MinLength: 1
+    MaxLength: 63
+  MasterUsername:
+    Type: String
+    Default: prmg_owner
+    AllowedPattern: '[a-zA-Z][a-zA-Z0-9_]*'
+    MinLength: 1
+    MaxLength: 63
+
+Resources:
+  ApiExecutionRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: !Sub ${AWS::StackName}-api-execution
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+            Action: sts:AssumeRole
+      ManagedPolicyArns:
+        - !Sub arn:${AWS::Partition}:iam::aws:policy/service-role/AWSLambdaVPCAccessExecutionRole
+      Policies:
+        - PolicyName: PRMGApiRuntime
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action: secretsmanager:GetSecretValue
+                Resource:
+                  - !GetAtt AppDatabaseSecret.Id
+                  - !GetAtt AdminSessionSecret.Id
+              - Effect: Allow
+                Action:
+                  - s3:GetObject
+                  - s3:PutObject
+                  - s3:DeleteObject
+                Resource: !Sub arn:${AWS::Partition}:s3:::${ResumeBucketName}/resumes/*
+              - Effect: Allow
+                Action: s3:ListBucket
+                Resource: !Sub arn:${AWS::Partition}:s3:::${ResumeBucketName}
+
+  MigrationExecutionRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: !Sub ${AWS::StackName}-db-migration-execution
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+            Action: sts:AssumeRole
+      ManagedPolicyArns:
+        - !Sub arn:${AWS::Partition}:iam::aws:policy/service-role/AWSLambdaVPCAccessExecutionRole
+      Policies:
+        - PolicyName: PRMGDatabaseMigration
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action: secretsmanager:GetSecretValue
+                Resource:
+                  - !GetAtt Database.MasterUserSecret.SecretArn
+                  - !GetAtt AppDatabaseSecret.Id
+                  - !GetAtt InitialAdminSecret.Id
+
+  ApiLambdaSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Outbound-only security group for the PRMG API Lambda.
+      VpcId: !Ref VpcId
+      SecurityGroupEgress:
+        - IpProtocol: -1
+          CidrIp: 0.0.0.0/0
+      Tags:
+        - Key: Name
+          Value: prmg-api-lambda
+
+  DatabaseSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: PostgreSQL access from the PRMG API Lambda only.
+      VpcId: !Ref VpcId
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 5432
+          ToPort: 5432
+          SourceSecurityGroupId: !Ref ApiLambdaSecurityGroup
+      SecurityGroupEgress:
+        - IpProtocol: -1
+          CidrIp: 0.0.0.0/0
+      Tags:
+        - Key: Name
+          Value: prmg-postgres
+
+  SecretsEndpointSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: HTTPS access to AWS Secrets Manager from the PRMG API Lambda.
+      VpcId: !Ref VpcId
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 443
+          ToPort: 443
+          SourceSecurityGroupId: !Ref ApiLambdaSecurityGroup
+      SecurityGroupEgress:
+        - IpProtocol: -1
+          CidrIp: 0.0.0.0/0
+      Tags:
+        - Key: Name
+          Value: prmg-secrets-endpoint
+
+  SecretsManagerEndpoint:
+    Type: AWS::EC2::VPCEndpoint
+    Properties:
+      VpcId: !Ref VpcId
+      VpcEndpointType: Interface
+      ServiceName: !Sub com.amazonaws.${AWS::Region}.secretsmanager
+      PrivateDnsEnabled: true
+      SubnetIds: !Ref DatabaseSubnetIds
+      SecurityGroupIds:
+        - !GetAtt SecretsEndpointSecurityGroup.GroupId
+
+  DatabaseSubnetGroup:
+    Type: AWS::RDS::DBSubnetGroup
+    Properties:
+      DBSubnetGroupDescription: Private network placement for the PRMG PostgreSQL database.
+      SubnetIds: !Ref DatabaseSubnetIds
+      Tags:
+        - Key: Name
+          Value: prmg-postgres
+
+  Database:
+    Type: AWS::RDS::DBInstance
+    DeletionPolicy: Snapshot
+    UpdateReplacePolicy: Snapshot
+    Properties:
+      DBInstanceIdentifier: prmg-postgres
+      Engine: postgres
+      DBInstanceClass: !Ref DBInstanceClass
+      AllocatedStorage: !Ref DBAllocatedStorage
+      StorageType: gp3
+      StorageEncrypted: true
+      DBName: !Ref DBName
+      MasterUsername: !Ref MasterUsername
+      ManageMasterUserPassword: true
+      DBSubnetGroupName: !Ref DatabaseSubnetGroup
+      VPCSecurityGroups:
+        - !GetAtt DatabaseSecurityGroup.GroupId
+      PubliclyAccessible: false
+      MultiAZ: false
+      BackupRetentionPeriod: 7
+      AutoMinorVersionUpgrade: true
+      CopyTagsToSnapshot: true
+      DeletionProtection: true
+      Tags:
+        - Key: Name
+          Value: prmg-postgres
+
+  AdminSessionSecret:
+    Type: AWS::SecretsManager::Secret
+    Properties:
+      Name: !Sub ${AWS::StackName}/admin-session-secret
+      Description: Signing key for short-lived PRMG administrator sessions.
+      GenerateSecretString:
+        PasswordLength: 48
+        ExcludePunctuation: true
+      Tags:
+        - Key: Name
+          Value: prmg-admin-session
+
+  AppDatabaseSecret:
+    Type: AWS::SecretsManager::Secret
+    Properties:
+      Name: !Sub ${AWS::StackName}/app-database
+      Description: Restricted PostgreSQL application account used by the public API.
+      GenerateSecretString:
+        SecretStringTemplate: '{"username":"prmg_app"}'
+        GenerateStringKey: password
+        PasswordLength: 48
+        ExcludePunctuation: true
+      Tags:
+        - Key: Name
+          Value: prmg-app-database
+
+  InitialAdminSecret:
+    Type: AWS::SecretsManager::Secret
+    Properties:
+      Name: !Sub ${AWS::StackName}/initial-admin
+      Description: One-time generated administrator login for first setup.
+      GenerateSecretString:
+        SecretStringTemplate: '{"username":"admin"}'
+        GenerateStringKey: password
+        PasswordLength: 32
+        ExcludePunctuation: true
+      Tags:
+        - Key: Name
+          Value: prmg-initial-admin
+
+  ApiFunction:
+    Type: AWS::Lambda::Function
+    DependsOn: Database
+    Properties:
+      FunctionName: prmg-api
+      Runtime: nodejs24.x
+      Handler: aws-api/handler.handler
+      Role: !GetAtt ApiExecutionRole.Arn
+      Code:
+        S3Bucket: !Ref ApiArtifactBucket
+        S3Key: !Ref ApiArtifactKey
+      Timeout: 30
+      MemorySize: 1024
+      EphemeralStorage:
+        Size: 512
+      VpcConfig:
+        SubnetIds: !Ref DatabaseSubnetIds
+        SecurityGroupIds:
+          - !GetAtt ApiLambdaSecurityGroup.GroupId
+      Environment:
+        Variables:
+          APP_DB_SECRET_ARN: !GetAtt AppDatabaseSecret.Id
+          DB_HOST: !GetAtt Database.Endpoint.Address
+          DB_PORT: !GetAtt Database.Endpoint.Port
+          DB_NAME: !Ref DBName
+          RESUME_BUCKET: !Ref ResumeBucketName
+          ADMIN_SESSION_SECRET_ARN: !GetAtt AdminSessionSecret.Id
+          ALLOWED_ORIGINS: https://primermg.com,https://www.primermg.com
+      Tags:
+        - Key: Name
+          Value: prmg-api
+
+  MigrationFunction:
+    Type: AWS::Lambda::Function
+    DependsOn: Database
+    Properties:
+      FunctionName: prmg-db-migrate
+      Runtime: nodejs24.x
+      Handler: aws-api/migrate.handler
+      Role: !GetAtt MigrationExecutionRole.Arn
+      Code:
+        S3Bucket: !Ref ApiArtifactBucket
+        S3Key: !Ref ApiArtifactKey
+      Timeout: 60
+      MemorySize: 512
+      VpcConfig:
+        SubnetIds: !Ref DatabaseSubnetIds
+        SecurityGroupIds:
+          - !GetAtt ApiLambdaSecurityGroup.GroupId
+      Environment:
+        Variables:
+          DB_SECRET_ARN: !GetAtt Database.MasterUserSecret.SecretArn
+          APP_DB_SECRET_ARN: !GetAtt AppDatabaseSecret.Id
+          DB_HOST: !GetAtt Database.Endpoint.Address
+          DB_PORT: !GetAtt Database.Endpoint.Port
+          DB_NAME: !Ref DBName
+          INITIAL_ADMIN_SECRET_ARN: !GetAtt InitialAdminSecret.Id
+      Tags:
+        - Key: Name
+          Value: prmg-db-migrate
+
+  HttpApi:
+    Type: AWS::ApiGatewayV2::Api
+    Properties:
+      Name: prmg-api
+      ProtocolType: HTTP
+      CorsConfiguration:
+        AllowOrigins:
+          - https://primermg.com
+          - https://www.primermg.com
+        AllowMethods:
+          - GET
+          - POST
+          - PATCH
+          - DELETE
+          - OPTIONS
+        AllowHeaders:
+          - Content-Type
+          - Authorization
+        ExposeHeaders:
+          - Content-Disposition
+          - X-Export-Count
+        MaxAge: 600
+
+  HttpApiIntegration:
+    Type: AWS::ApiGatewayV2::Integration
+    Properties:
+      ApiId: !Ref HttpApi
+      IntegrationType: AWS_PROXY
+      IntegrationUri: !GetAtt ApiFunction.Arn
+      PayloadFormatVersion: '2.0'
+      TimeoutInMillis: 30000
+
+  HttpApiDefaultRoute:
+    Type: AWS::ApiGatewayV2::Route
+    Properties:
+      ApiId: !Ref HttpApi
+      RouteKey: '$default'
+      Target: !Join ['', ['integrations/', !Ref HttpApiIntegration]]
+
+  HttpApiStage:
+    Type: AWS::ApiGatewayV2::Stage
+    Properties:
+      ApiId: !Ref HttpApi
+      StageName: '$default'
+      AutoDeploy: true
+
+  HttpApiInvokePermission:
+    Type: AWS::Lambda::Permission
+    Properties:
+      FunctionName: !Ref ApiFunction
+      Action: lambda:InvokeFunction
+      Principal: apigateway.amazonaws.com
+      SourceArn: !Sub arn:${AWS::Partition}:execute-api:${AWS::Region}:${AWS::AccountId}:${HttpApi}/*/*
+
+  S3GatewayEndpoint:
+    Type: AWS::EC2::VPCEndpoint
+    Properties:
+      VpcId: !Ref VpcId
+      VpcEndpointType: Gateway
+      ServiceName: !Sub com.amazonaws.${AWS::Region}.s3
+      RouteTableIds: !Split [",", !Ref RouteTableIds]
+      PolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal: '*'
+            Action:
+              - s3:GetObject
+              - s3:PutObject
+              - s3:DeleteObject
+            Resource: !Sub arn:${AWS::Partition}:s3:::${ResumeBucketName}/resumes/*
+          - Effect: Allow
+            Principal: '*'
+            Action: s3:ListBucket
+            Resource: !Sub arn:${AWS::Partition}:s3:::${ResumeBucketName}
+
+Outputs:
+  ApiBaseUrl:
+    Description: Website API endpoint; configure this as the Amplify PRMG_API_BASE_URL without changing the website domain.
+    Value: !Sub https://${HttpApi}.execute-api.${AWS::Region}.${AWS::URLSuffix}
+  ApiFunctionName:
+    Value: !Ref ApiFunction
+  MigrationFunctionName:
+    Value: !Ref MigrationFunction
+  InitialAdminSecretArn:
+    Description: View the generated initial admin password in Secrets Manager after stack creation and migration.
+    Value: !GetAtt InitialAdminSecret.Id
+  DatabaseEndpoint:
+    Description: Private endpoint for the database; do not expose it in browser code.
+    Value: !GetAtt Database.Endpoint.Address
+  DatabasePort:
+    Value: !GetAtt Database.Endpoint.Port
+  DatabaseName:
+    Value: !Ref DBName
+  DatabaseSecretArn:
+    Description: RDS-managed master credentials in Secrets Manager.
+    Value: !GetAtt Database.MasterUserSecret.SecretArn
+  AppDatabaseSecretArn:
+    Description: Restricted application database credentials managed in Secrets Manager.
+    Value: !GetAtt AppDatabaseSecret.Id
+  ApiLambdaSecurityGroupId:
+    Description: Security group attached to both API and database migration Lambdas.
+    Value: !GetAtt ApiLambdaSecurityGroup.GroupId
+  DatabaseSecurityGroupId:
+    Value: !GetAtt DatabaseSecurityGroup.GroupId
+  SecretsEndpointSecurityGroupId:
+    Value: !GetAtt SecretsEndpointSecurityGroup.GroupId

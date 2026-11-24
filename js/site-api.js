@@ -1,8 +1,8 @@
-/* Use the local SQLite API on localhost; keep the hosted API for deployed pages. */
+/* Use SQLite locally and the branch-specific API URL injected during deployment. */
 const isLocalSite = ["localhost", "127.0.0.1", "[::1]"].includes(window.location.hostname);
 window.SITE_API_BASE_URL = isLocalSite
   ? `${window.location.origin}/api`
-  : "https://ntd69d98a8.execute-api.us-east-2.amazonaws.com";
+  : (window.PRMG_API_BASE_URL || "https://kqf48x7cwc.execute-api.us-east-2.amazonaws.com");
 
 (() => {
   const apiBase = window.SITE_API_BASE_URL;
