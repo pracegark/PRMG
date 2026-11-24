@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html class="wide wow-animation" lang="en">
+<head>
+  <title>Admin Dashboard | Prime Resources Management Group</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" href="images/favicon.png" type="image/x-icon">
+  <link rel="stylesheet" href="css/fonts.css">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .admin-page { min-height: 70vh; padding: clamp(38px, 7vw, 84px) 18px; background: linear-gradient(rgba(8,12,18,.48),rgba(8,12,18,.64)),url("images/home-slide-01.jpg") center/cover fixed; }
+    .admin-panel { max-width: 1120px; margin: 0 auto; padding: clamp(24px,5vw,52px); color: #fff; background: rgba(12,17,24,.78); border: 1px solid rgba(255,255,255,.22); border-radius: 16px; box-shadow: 0 18px 54px rgba(0,0,0,.25); }
+    .admin-panel h1 { color: #fff; margin: 0 0 10px; font-size: clamp(30px,5vw,44px); }
+    .admin-panel > p { color: rgba(255,255,255,.78); margin: 0 0 28px; }
+    .admin-form-grid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 18px; }
+    .admin-field { min-width: 0; }
+    .admin-field-wide { grid-column: 1/-1; }
+    .admin-field label { display:block; margin:0 0 7px; color:#fff; font-weight:600; }
+    .admin-field input,.admin-field select,.admin-field textarea { width:100%; min-height:48px; padding:11px 13px; border:1px solid rgba(255,255,255,.28); border-radius:8px; background:#fff; color:#222; font:inherit; }
+    .admin-job-type-select { position:relative; width:100%; }
+    .admin-job-type-toggle { display:flex; align-items:center; justify-content:space-between; width:100%; min-height:48px; padding:11px 13px; border:1px solid rgba(255,255,255,.28); border-radius:8px; background:#fff; color:#222; font:inherit; text-align:left; cursor:pointer; }
+    .admin-job-type-toggle:focus-visible { outline:3px solid rgba(220,37,56,.55); outline-offset:2px; }
+    .admin-job-type-chevron { width:9px; height:9px; flex:0 0 9px; margin:0 3px 5px 12px; border-right:2px solid #555; border-bottom:2px solid #555; transform:rotate(45deg); }
+    .admin-job-type-menu { position:absolute; z-index:40; top:calc(100% + 6px); right:0; left:0; max-height:min(360px,55vh); overflow:auto; padding:8px; border:1px solid #d4d6da; border-radius:10px; background:#fff; box-shadow:0 14px 30px rgba(0,0,0,.28); }
+    .admin-job-type-menu[hidden] { display:none !important; }
+    .admin-job-type-search { position:sticky; top:-8px; z-index:1; display:block; width:100%; min-height:44px !important; margin:0 0 6px !important; padding:10px 12px !important; border:0 !important; border-bottom:1px solid #e5e5e5 !important; border-radius:7px 7px 0 0 !important; background:#fff !important; color:#262a31 !important; font:inherit !important; }
+    .admin-job-type-options { display:grid; gap:2px; }
+    .admin-job-type-option { display:block; width:100%; min-height:40px; padding:9px 11px; border:0; border-radius:6px; background:transparent; color:#262a31; font:inherit; text-align:left; cursor:pointer; }
+    .admin-job-type-option[hidden] { display:none !important; }
+    .admin-job-type-option:hover,.admin-job-type-option:focus-visible,.admin-job-type-option[aria-selected="true"] { outline:none; background:#fff0f2; color:#a7192a; }
+    .admin-job-type-no-results { margin:0; padding:12px; color:#555960; font-size:14px; }
+    .admin-field textarea { min-height:150px; resize:vertical; }
+    .admin-submit,.admin-login-submit,.admin-logout { min-height:48px; padding:0 22px; border:0; border-radius:7px; background:#dc2538; color:#fff; font:inherit; font-weight:700; cursor:pointer; }
+    .admin-submit:hover,.admin-login-submit:hover,.admin-logout:hover { background:#bd1d2e; }
+    .admin-status { min-height:24px; margin:15px 0 0; color:#fff; }
+    .admin-blurred { filter:blur(5px); user-select:none; pointer-events:none; }
+    .admin-login-overlay { position:fixed; z-index:10000; inset:0; display:grid; place-items:center; padding:20px; background:rgba(5,8,12,.55); backdrop-filter:blur(7px); -webkit-backdrop-filter:blur(7px); }
+    .admin-login-card { width:min(100%,430px); padding:30px; border:1px solid rgba(255,255,255,.22); border-radius:16px; background:rgba(25,28,34,.96); color:#fff; box-shadow:0 24px 70px rgba(0,0,0,.45); }
+    .admin-login-card h2 { margin:0 0 8px; color:#fff; }
+    .admin-login-card p { margin:0 0 22px; color:rgba(255,255,255,.72); }
+    .admin-login-card .admin-field { margin-bottom:16px; }
+    .admin-login-card .admin-field label { display:block; margin-bottom:7px; }
+    .admin-login-card .admin-field input { width:100%; min-height:48px; padding:11px 13px; border-radius:8px; border:1px solid #d7d7d7; font:inherit; }
+    .admin-login-submit { width:100%; }
+    .admin-login-error { min-height:24px; margin:12px 0 0 !important; color:#ff9aa5 !important; }
+    .admin-toolbar { display:flex; justify-content:flex-end; margin:0 auto 14px; max-width:760px; }
+    .admin-dashboard-grid { display:grid; grid-template-columns:minmax(0,1.2fr) minmax(300px,.8fr); gap:22px; }
+    .admin-card { min-width:0; padding:24px; border:1px solid rgba(255,255,255,.18); border-radius:12px; background:rgba(255,255,255,.055); }
+    .admin-card h2 { margin:0 0 8px; color:#fff; font-size:clamp(22px,3vw,28px); }
+    .admin-card > p { margin:0 0 22px; color:rgba(255,255,255,.72); }
+    .admin-export-grid { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:18px; }
+    .admin-export-grid .admin-field { min-width:0; }
+    .admin-outreach-grid { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:14px; }
+    .admin-outreach-grid .admin-field { min-width:0; }
+    .admin-export-submit { width:100%; min-height:48px; padding:0 18px; border:0; border-radius:7px; background:#dc2538; color:#fff; font:inherit; font-weight:700; cursor:pointer; }
+    .admin-export-submit:hover { background:#bd1d2e; }
+    .admin-export-submit:disabled { cursor:not-allowed; opacity:.55; }
+    .admin-export-status { min-height:24px; margin:14px 0 0; color:#fff; }
+    .admin-outreach-status { min-height:24px; margin:12px 0; color:rgba(255,255,255,.85) !important; }
+    .admin-outreach-note { margin:12px 0 0 !important; color:rgba(255,255,255,.62) !important; font-size:13px; }
+    .admin-jobs-card { margin-top:22px; }
+    .admin-job-filters { display:grid; grid-template-columns:repeat(5,minmax(0,1fr)); gap:10px; margin:18px 0 14px; text-align:left; }
+    .admin-job-filter label { display:block; margin:0 0 6px; color:#fff; font-size:12px; font-weight:600; }
+    .admin-job-filter input,.admin-job-filter select { display:block; width:100%; min-width:0; min-height:42px; padding:8px 10px; border:1px solid #d4d6da; border-radius:6px; background-color:#fff !important; color:#262a31 !important; -webkit-text-fill-color:#262a31; color-scheme:light; font:inherit; font-size:13px; font-weight:400; }
+    .admin-job-filter-select { position:relative; }
+    .admin-job-filter-select-toggle { display:flex; align-items:center; justify-content:space-between; width:100%; min-height:42px; padding:0 12px; border:1px solid #d4d6da; border-radius:6px; background:#fff; color:#262a31; font:inherit; font-size:13px; font-weight:400; text-align:left; cursor:pointer; }
+    .admin-job-filter-select-toggle:hover,.admin-job-filter-select-toggle:focus-visible { border-color:#dc2538; outline:2px solid rgba(220,37,56,.3); outline-offset:1px; }
+    .admin-job-filter-chevron { width:8px; height:8px; flex:0 0 8px; margin:0 2px 4px 10px; border-right:2px solid #444; border-bottom:2px solid #444; transform:rotate(45deg); }
+    .admin-job-filter-menu { position:absolute; z-index:20; top:calc(100% + 5px); right:0; left:0; padding:5px; border:1px solid #d4d6da; border-radius:7px; background:#fff; box-shadow:0 10px 24px rgba(0,0,0,.2); }
+    .admin-job-filter-menu[hidden] { display:none; }
+    .admin-job-filter-option { display:block; width:100%; min-height:38px; padding:8px 10px; border:0; border-radius:4px; background:transparent; color:#262a31; font:inherit; font-size:13px; text-align:left; cursor:pointer; }
+    .admin-job-filter-option:hover,.admin-job-filter-option:focus-visible { background:#f4f4f5; outline:none; }
+    .admin-job-filter-option[aria-pressed="true"] { background:#fff0f2; color:#a7192a; font-weight:700; }
+    .admin-job-filter input:focus,.admin-job-filter select:focus { outline:2px solid rgba(220,37,56,.45); border-color:#dc2538; }
+    .admin-jobs-status { min-height:24px; margin:8px 0 14px; color:#fff; }
+    .admin-jobs-table-wrap { overflow-x:auto; border:1px solid rgba(255,255,255,.16); border-radius:9px; background:#fff; }
+    .admin-jobs-table { width:100%; min-width:900px; border-collapse:collapse; color:#2d3036; text-align:left; }
+    .admin-jobs-table th { padding:13px 14px; color:#fff; background:#25282e; font-size:13px; font-weight:700; white-space:nowrap; }
+    .admin-jobs-table td { padding:13px 14px; border-top:1px solid #e8e9eb; vertical-align:top; font-size:14px; line-height:1.5; }
+    .admin-jobs-table tbody tr:nth-child(even) { background:#f7f7f8; }
+    .admin-job-title-cell { min-width:180px; font-weight:700; color:#25272c; }
+    .admin-job-description-cell { min-width:280px; max-width:440px; color:#5c6067; }
+    .admin-job-description-content { display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:4; overflow:hidden; white-space:pre-wrap; overflow-wrap:anywhere; }
+    .admin-job-state { display:inline-block; padding:4px 9px; border-radius:20px; font-size:12px; font-weight:700; white-space:nowrap; }
+    .admin-job-state.is-visible { background:#e5f5ed; color:#216a45; }
+    .admin-job-state.is-hidden { background:#fce9eb; color:#a72030; }
+    .admin-job-visibility-control { display:flex; align-items:center; gap:10px; }
+    .admin-job-visibility-toggle { position:relative; flex:0 0 48px; width:48px; height:28px; padding:3px; border:0; border-radius:20px; background:#9298a0; cursor:pointer; transition:background .18s ease; }
+    .admin-job-visibility-toggle::before { content:""; display:block; width:22px; height:22px; border-radius:50%; background:#fff; box-shadow:0 1px 4px rgba(0,0,0,.25); transition:transform .18s ease; }
+    .admin-job-visibility-toggle[aria-checked="true"] { background:#c91f34; }
+    .admin-job-visibility-toggle[aria-checked="true"]::before { transform:translateX(20px); }
+    .admin-job-visibility-toggle:disabled { opacity:.55; cursor:wait; }
+    .admin-jobs-empty { padding:28px; color:#555960; text-align:center; }
+    [hidden] { display:none !important; }
+    @media(max-width:800px) { .admin-dashboard-grid { grid-template-columns:1fr; } }
+    @media(max-width:700px) { .admin-job-filters { grid-template-columns:repeat(2,minmax(0,1fr)); } .admin-job-filter:last-child { grid-column:1/-1; } .admin-jobs-table { min-width:700px; } .admin-job-title-cell { min-width:135px; } .admin-job-description-cell { min-width:190px; } }
+    @media(max-width:600px) { .admin-form-grid,.admin-export-grid,.admin-outreach-grid { grid-template-columns:1fr; gap:14px; } .admin-field-wide { grid-column:auto; } .admin-panel { padding:24px 18px; } .admin-card { padding:20px 16px; } .admin-login-card { padding:24px 20px; } }
+  </style>
+</head>
+<body>
+  <div class="page text-center text-md-left">
+    <!-- Page Header-->
+    <!-- SHARED_SITE_HEADER -->
+    <main class="admin-page">
+      <div class="admin-toolbar"><button class="admin-logout" id="admin-logout" type="button" hidden>Log out</button></div>
+      <section class="admin-panel" id="admin-panel" aria-labelledby="admin-title">
+        <h1 id="admin-title">Admin dashboard</h1>
+        <p>Manage job postings and download applicant records.</p>
+        <div class="admin-dashboard-grid">
+          <section class="admin-card" aria-labelledby="add-job-title">
+            <h2 id="add-job-title">Add a job</h2>
+            <p>Publish a new opening to the public job board.</p>
+            <form id="admin-job-form">
+              <div class="admin-form-grid">
+                <div class="admin-field"><label for="job-title">Job title *</label><input id="job-title" name="title" required maxlength="250"></div>
+                <div class="admin-field"><label id="job-type-label">Job type *</label><input type="hidden" id="job-type" name="type"><div class="admin-job-type-select"><button class="admin-job-type-toggle" id="job-type-toggle" type="button" aria-labelledby="job-type-label job-type-value" aria-haspopup="listbox" aria-expanded="false" aria-controls="job-type-menu" disabled><span id="job-type-value">Loading job types…</span><span class="admin-job-type-chevron" aria-hidden="true"></span></button><div class="admin-job-type-menu" id="job-type-menu" role="group" aria-labelledby="job-type-label" hidden><input class="admin-job-type-search" id="job-type-search" type="search" placeholder="Search job types" aria-label="Search job types" autocomplete="off"><div class="admin-job-type-options" id="job-type-options" role="listbox" aria-labelledby="job-type-label"></div><p class="admin-job-type-no-results" id="job-type-no-results" hidden>No job types match your search.</p></div></div></div>
+                <div class="admin-field admin-field-wide"><label for="job-link">Application link *</label><input id="job-link" name="link" type="url" required maxlength="2000" placeholder="https://"></div>
+                <div class="admin-field admin-field-wide"><label for="job-location">Location</label><input id="job-location" name="location" maxlength="250" placeholder="City, State or remote"></div>
+                <div class="admin-field admin-field-wide"><label for="job-description">Description</label><textarea id="job-description" name="description" maxlength="20000"></textarea></div>
+                <div class="admin-field admin-field-wide"><button class="admin-submit" type="submit">Add job to board</button></div>
+              </div>
+              <p class="admin-status" id="job-status" role="status" aria-live="polite"></p>
+            </form>
+          </section>
+          <section class="admin-card" aria-labelledby="export-title">
+            <h2 id="export-title">Download applicants</h2>
+            <p>Choose an optional date range based on when each application was added.</p>
+            <form id="admin-export-form">
+              <div class="admin-export-grid">
+                <div class="admin-field"><label for="export-from">From date</label><input id="export-from" name="from" type="date"></div>
+                <div class="admin-field"><label for="export-to">Through date</label><input id="export-to" name="to" type="date"></div>
+              </div>
+              <button class="admin-export-submit" type="submit">Download contacts CSV</button>
+              <p class="admin-export-status" id="export-status" role="status" aria-live="polite"></p>
+            </form>
+          </section>
+          <section class="admin-card" aria-labelledby="outreach-title">
+            <h2 id="outreach-title">Email applicants</h2>
+            <p>Choose a job type and optional date range to prepare a private email draft for matching applicants.</p>
+            <form id="admin-outreach-form">
+              <div class="admin-outreach-grid">
+                <div class="admin-field admin-field-wide"><label id="outreach-job-type-label">Job type / role *</label><input type="hidden" id="outreach-job-type" name="jobTitle"><div class="admin-job-type-select"><button class="admin-job-type-toggle" id="outreach-job-type-toggle" type="button" aria-labelledby="outreach-job-type-label outreach-job-type-value" aria-haspopup="listbox" aria-expanded="false" aria-controls="outreach-job-type-menu" disabled><span id="outreach-job-type-value">Loading job types…</span><span class="admin-job-type-chevron" aria-hidden="true"></span></button><div class="admin-job-type-menu" id="outreach-job-type-menu" role="group" aria-labelledby="outreach-job-type-label" hidden><input class="admin-job-type-search" id="outreach-job-type-search" type="search" placeholder="Search job types" aria-label="Search job types" autocomplete="off"><div class="admin-job-type-options" id="outreach-job-type-options" role="listbox" aria-labelledby="outreach-job-type-label"></div><p class="admin-job-type-no-results" id="outreach-job-type-no-results" hidden>No job types match your search.</p></div></div></div>
+                <div class="admin-field"><label for="outreach-from">From date</label><input id="outreach-from" name="from" type="date"></div>
+                <div class="admin-field"><label for="outreach-to">Through date</label><input id="outreach-to" name="to" type="date"></div>
+              </div>
+              <p class="admin-outreach-status" id="outreach-status" role="status" aria-live="polite">Choose a job type to find matching applicants.</p>
+              <button class="admin-export-submit" id="outreach-submit" type="submit" disabled>Create email draft</button>
+              <p class="admin-outreach-note">Applicant addresses are added as BCC recipients to keep them private.</p>
+            </form>
+          </section>
+        </div>
+        <section class="admin-card admin-jobs-card" aria-labelledby="manage-jobs-title">
+          <h2 id="manage-jobs-title">Manage job listings</h2>
+          <p>Switch a listing off to hide it from the public job board. Switch it back on to publish it again.</p>
+          <div class="admin-job-filters" aria-label="Filter job listings">
+            <div class="admin-job-filter"><label for="job-filter-title">Title</label><input id="job-filter-title" type="search" aria-label="Filter by job title" placeholder="All titles"></div>
+            <div class="admin-job-filter"><label for="job-filter-type">Type</label><input id="job-filter-type" type="search" aria-label="Filter by job type" placeholder="All types"></div>
+            <div class="admin-job-filter"><label for="job-filter-location">Location</label><input id="job-filter-location" type="search" aria-label="Filter by job location" placeholder="All locations"></div>
+            <div class="admin-job-filter"><label for="job-filter-description">Description</label><input id="job-filter-description" type="search" aria-label="Filter by job description" placeholder="All descriptions"></div>
+            <div class="admin-job-filter"><label id="job-filter-visibility-label">Visibility</label><div class="admin-job-filter-select"><button class="admin-job-filter-select-toggle" id="job-filter-visibility-toggle" type="button" aria-haspopup="true" aria-expanded="false" aria-controls="job-filter-visibility-menu"><span id="job-filter-visibility-value">All listings</span><span class="admin-job-filter-chevron" aria-hidden="true"></span></button><div class="admin-job-filter-menu" id="job-filter-visibility-menu" role="group" aria-labelledby="job-filter-visibility-label" hidden><button class="admin-job-filter-option" type="button" data-visibility="all" aria-pressed="true">All listings</button><button class="admin-job-filter-option" type="button" data-visibility="visible" aria-pressed="false">Visible</button><button class="admin-job-filter-option" type="button" data-visibility="hidden" aria-pressed="false">Hidden</button></div></div></div>
+          </div>
+          <p class="admin-jobs-status" id="admin-jobs-status" role="status" aria-live="polite"></p>
+          <div class="admin-jobs-table-wrap">
+            <table class="admin-jobs-table">
+              <thead><tr><th scope="col">Title</th><th scope="col">Type</th><th scope="col">Location</th><th scope="col">Description</th><th scope="col">Visibility</th></tr></thead>
+              <tbody id="admin-jobs-table-body"></tbody>
+            </table>
+            <div class="admin-jobs-empty" id="admin-jobs-empty" hidden>No jobs match this filter.</div>
+          </div>
+        </section>
+      </section>
+    </main>
+    <!-- Page Footer-->
+    <!-- SHARED_SITE_FOOTER -->
+  </div>
+  <div class="admin-login-overlay" id="admin-login-overlay" role="dialog" aria-modal="true" aria-labelledby="login-title">
+    <form class="admin-login-card" id="admin-login-form">
+      <h2 id="login-title">Administrator login</h2>
+      <p>Sign in to unlock job entry.</p>
+      <div class="admin-field"><label for="admin-username">Username</label><input id="admin-username" name="username" autocomplete="username" required maxlength="150"></div>
+      <div class="admin-field"><label for="admin-password">Password</label><input id="admin-password" name="password" type="password" autocomplete="current-password" required maxlength="1024"></div>
+      <button class="admin-login-submit" type="submit">Log in</button>
+      <p class="admin-login-error" id="admin-login-error" role="alert" aria-live="polite"></p>
+    </form>
+  </div>
+  <script src="js/job-admin.js"></script>
+  <script src="js/core.min.js"></script>
+  <script src="js/script.js"></script>
+</body>
+</html>

@@ -1,0 +1,267 @@
+/* Shared responsive finishing layer; loaded after each page's own styles. */
+@media (max-width: 991px) {
+  .no-resume-panel,
+  .contact-glass-panel,
+  .safety-page-panel,
+  .staffing-glass-panel,
+  .about-glass-panel,
+  .job-management #job-listing-panel {
+    max-width: 100%;
+  }
+
+  .rd-navbar-static .rd-navbar-nav > li > a {
+    padding-left: clamp(10px, 1.2vw, 20px);
+    padding-right: clamp(10px, 1.2vw, 20px);
+  }
+}
+
+@media (max-width: 767px) {
+  html {
+    width: 100%;
+    max-width: 100%;
+    scroll-padding-top: 64px;
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
+
+  body {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    overflow-x: hidden;
+  }
+
+  .page,
+  main,
+  section,
+  article,
+  aside,
+  header,
+  footer,
+  form,
+  fieldset {
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  img,
+  video,
+  canvas,
+  iframe,
+  object,
+  embed {
+    max-width: 100%;
+  }
+
+  .shell,
+  .container {
+    width: 100%;
+    max-width: 100%;
+    padding-right: 15px;
+    padding-left: 15px;
+  }
+
+  .range > [class*="cell-"],
+  [class*="cell-"] {
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  h1,
+  .h1 { font-size: clamp(28px, 8vw, 38px); line-height: 1.16; }
+  h2,
+  .h2 { font-size: clamp(23px, 6.5vw, 31px); line-height: 1.2; }
+  h3,
+  .h3 { font-size: clamp(19px, 5.5vw, 25px); line-height: 1.25; }
+
+  p,
+  li,
+  a,
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  label,
+  legend {
+    overflow-wrap: anywhere;
+  }
+
+  button,
+  .btn,
+  input,
+  select,
+  textarea {
+    max-width: 100%;
+  }
+
+  button,
+  .btn {
+    white-space: normal;
+  }
+
+  table {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  pre,
+  code {
+    max-width: 100%;
+    overflow-wrap: anywhere;
+    white-space: pre-wrap;
+  }
+
+  .rd-navbar-fixed .rd-navbar-panel,
+  .rd-navbar-fixed .rd-navbar-inner {
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  .rd-navbar-fixed .rd-navbar-brand img {
+    width: auto;
+    max-width: min(132px, 42vw);
+    height: auto;
+    max-height: 44px;
+  }
+
+  .rd-navbar-fixed .rd-navbar-nav-wrap {
+    top: 56px;
+    bottom: 0;
+    width: min(84vw, 320px);
+    max-height: calc(100vh - 56px);
+    max-height: calc(100dvh - 56px);
+    padding: 8px 0 20px;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+
+  .rd-navbar-fixed .rd-navbar-nav {
+    height: auto;
+    min-height: 100%;
+    overflow: visible;
+  }
+
+  .page-footer > section {
+    padding-top: 36px !important;
+    padding-bottom: 36px !important;
+  }
+
+  .page-footer .range {
+    margin-right: 0;
+    margin-left: 0;
+  }
+
+  .page-footer .range > [class*="cell-"] {
+    width: 100%;
+    margin: 0;
+    padding-right: 0;
+    padding-left: 0;
+  }
+
+  .page-footer p,
+  .page-footer a {
+    overflow-wrap: anywhere;
+  }
+
+  .page-footer .footer-social-links {
+    flex-wrap: wrap;
+  }
+
+  .page-footer .small-xs {
+    line-height: 1.6;
+  }
+
+  .ui-to-top {
+    right: 12px;
+    bottom: 12px;
+    width: 46px;
+    height: 46px;
+  }
+
+  .staffing-industries-heading,
+  .staffing-industries-heading h2,
+  .application-section legend,
+  .job-management #job-listing-panel,
+  .safety-page-panel,
+  .contact-glass-panel,
+  .staffing-glass-panel,
+  .about-glass-panel {
+    overflow-wrap: anywhere;
+  }
+
+  .job-management .container {
+    width: 100%;
+    padding: 10px 15px;
+  }
+
+  .job-management #job-listing-panel {
+    min-height: 0;
+    margin-top: 24px;
+    margin-bottom: 24px;
+    padding: 24px 18px;
+  }
+
+  .job-board-contact {
+    width: 100%;
+    padding: 10px 16px;
+    line-height: 1.45;
+  }
+
+  #jobList {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 14px;
+  }
+
+  .job-box {
+    min-height: 0;
+    padding: 20px;
+  }
+
+  .job-apply-button {
+    width: 100%;
+  }
+
+  .wrapper {
+    width: min(420px, calc(100% - 28px));
+    margin: 14px;
+    padding: 24px 20px;
+  }
+
+  .wrapper h1 {
+    font-size: clamp(28px, 8vw, 36px);
+  }
+}
+
+@media (max-width: 480px) {
+  .shell,
+  .container {
+    padding-right: 12px;
+    padding-left: 12px;
+  }
+
+  .page-footer > section {
+    padding-top: 30px !important;
+    padding-bottom: 30px !important;
+  }
+
+  .rd-navbar-fixed .rd-navbar-nav li > a {
+    min-height: 44px;
+  }
+
+  .no-resume-panel,
+  .contact-glass-panel,
+  .safety-page-panel,
+  .staffing-glass-panel,
+  .about-glass-panel {
+    border-radius: 12px;
+  }
+
+  .multi-select-menu {
+    width: 100%;
+    min-width: 0;
+  }
+}

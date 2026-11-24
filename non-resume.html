@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html class="wide wow-animation" lang="en">
+<head>
+  <title>Apply Without a Resume | Prime Resources Management Group</title>
+  <meta name="description" content="Complete the Prime Resources Management Group trade checklist and apply without uploading a resume." />
+  <meta name="format-detection" content="telephone=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="utf-8">
+  <link rel="icon" href="images/favicon.png" type="image/x-icon">
+  <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Poppins:400,500,700%7CQuattrocento+Sans:400,700%7CMontserrat:900">
+  <link rel="stylesheet" href="css/fonts.css">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/non-resume-form.css">
+  <link rel="stylesheet" href="css/duplicate-contact.css">
+</head>
+<body>
+  <div class="page text-center text-md-left">
+    <div class="page-loader">
+      <div><div class="page-loader-body"><div class="cssload-loader"><div class="cssload-inner cssload-one"></div><div class="cssload-inner cssload-two"></div><div class="cssload-inner cssload-three"></div></div></div></div>
+    </div>
+    <!-- SHARED_SITE_HEADER -->
+    <section class="breadcrumb-classic parallax-container" data-parallax-img="images/breadcrumbs-parallax-02.jpg">
+      <div class="parallax-content section-top-75 section-md-top-150 section-lg-top-260">
+        <div class="shell">
+          <ul class="list-breadcrumb">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="job-seeker.html">Job Seeker</a></li>
+            <li>Apply Without a Resume</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <main class="no-resume-section">
+      <div class="shell">
+        <div class="no-resume-panel">
+          <header class="no-resume-intro">
+            <p class="no-resume-eyebrow">CANDIDATE TRADE CHECKLIST</p>
+            <h1>Apply without a resume</h1>
+            <p>Tell us about your experience, trade skills, and work preferences. Fields marked required must be completed. You can select more than one skill or position.</p>
+            <div class="application-note"><span aria-hidden="true">*</span> Required fields <i aria-hidden="true"></i> You can review every section before submitting</div>
+          </header>
+
+          <form id="non-resume-form">
+            <fieldset class="application-section">
+              <legend><span class="section-number">1</span><span class="section-heading">Personal &amp; contact information</span></legend>
+              <div class="application-grid two-column">
+                <label><span class="field-label">First name <em class="required-marker">*</em></span><input name="firstName" autocomplete="given-name" required></label>
+                <label><span class="field-label">Last name <em class="required-marker">*</em></span><input name="lastName" autocomplete="family-name" required></label>
+                <label><span class="field-label">Email address <em class="required-marker">*</em></span><input type="email" name="email" autocomplete="email" required></label>
+                <label><span class="field-label">Phone number <em class="required-marker">*</em></span><input type="tel" name="primaryPhone" autocomplete="tel" required></label>
+                <label>Alternate phone<input type="tel" name="alternatePhone" autocomplete="tel-national"></label>
+                <label class="span-two">Full address<textarea name="fullAddress" rows="2" autocomplete="street-address"></textarea></label>
+                <label>Emergency contact<input name="emergencyContact" autocomplete="off"></label>
+                <label>Emergency phone<input type="tel" name="emergencyPhone" autocomplete="off"></label>
+              </div>
+            </fieldset>
+
+            <fieldset class="application-section">
+              <legend><span class="section-number">2</span><span class="section-heading">Position &amp; logistical preferences</span></legend>
+              <div class="application-grid two-column">
+                <label><span class="field-label">Primary trade / role <em class="required-marker">*</em></span><input name="primaryTrade" required></label>
+                <label>Desired pay rate<input name="desiredPayRate" inputmode="decimal"></label>
+                <label>Available start date<input type="date" name="availableStart"></label>
+                <div class="choice-field"><span>Travel / relocation?</span><div class="choice-row"><label><input type="radio" name="travelRelocation" value="Yes" required> Yes</label><label><input type="radio" name="travelRelocation" value="No"> No</label></div></div>
+                <div class="choice-field"><span>Own transportation?</span><div class="choice-row"><label><input type="radio" name="ownTransport" value="Yes" required> Yes</label><label><input type="radio" name="ownTransport" value="No"> No</label></div></div>
+                <div class="choice-field"><span>Shift availability</span><div id="shift-availability" class="multi-select"></div></div>
+                <div class="choice-field"><span>Driver’s license</span><div id="drivers-license" class="multi-select"></div></div>
+                <div class="choice-field"><span>TWIC card status</span><div class="choice-row"><label><input type="radio" name="twicStatus" value="Yes" required> Yes</label><label><input type="radio" name="twicStatus" value="No"> No</label></div></div>
+                <label>TWIC expiration date<input type="date" name="twicExpiration"></label>
+              </div>
+            </fieldset>
+
+            <fieldset class="application-section">
+              <legend><span class="section-number">3</span><span class="section-heading">Work history<small>List up to five jobs, most recent first</small></span></legend>
+              <div id="work-history-fields" class="work-history-list"></div>
+              <button type="button" id="add-work-entry" class="add-work-entry">+ Add another job</button>
+            </fieldset>
+
+            <fieldset class="application-section">
+              <legend><span class="section-number">4</span><span class="section-heading">Active certifications, licenses &amp; expirations</span></legend>
+              <p class="section-hint">Examples: OSHA 10/30, NCCER, API, AWS, CDL, BLS, CNA, RN, or BOSIET.</p>
+              <div id="certification-fields" class="certification-list"></div>
+            </fieldset>
+
+            <fieldset class="application-section">
+              <legend><span class="section-number">5</span><span class="section-heading">Skills, tools &amp; equipment proficiency</span></legend>
+              <p class="section-hint">Select all skills and equipment you can operate or perform.</p>
+              <div id="skill-groups" class="option-groups"></div>
+            </fieldset>
+
+            <fieldset class="application-section">
+              <legend><span class="section-number">6</span><span class="section-heading">Trade &amp; position selection</span></legend>
+              <p class="section-hint">Select the specialized titles, roles, and certifications you are applying to perform.</p>
+              <div id="position-options" class="checkbox-grid"></div>
+              <label class="other-roles">Other skills, roles, or certifications not listed<textarea name="otherRoles" rows="3"></textarea></label>
+            </fieldset>
+
+            <fieldset class="application-section">
+              <legend><span class="section-number">7</span><span class="section-heading">Education &amp; acknowledgement</span></legend>
+              <div class="application-grid two-column">
+                <label class="span-two">Highest education / school<input name="highestEducation"></label>
+                <label><span class="field-label">Applicant signature (type full legal name) <em class="required-marker">*</em></span><input name="applicantSignature" autocomplete="name" required></label>
+                <label><span class="field-label">Date <em class="required-marker">*</em></span><input type="date" name="signatureDate" required></label>
+              </div>
+              <label class="acknowledgement"><input type="checkbox" name="acknowledgement" value="true" required> <span>I certify that the information provided is true, accurate, and complete to the best of my knowledge. I authorize verification of the statements in this application and understand that misrepresentation or omission may result in rejection or termination.</span></label>
+            </fieldset>
+
+            <div class="submit-application">
+              <p>Your information will be sent to the PRMG recruiting team. No resume is required for this application.</p>
+              <button type="submit" class="btn btn-default">Submit trade checklist</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </main>
+    <!-- SHARED_SITE_FOOTER -->
+  </div>
+  <div class="snackbars" id="form-output-global"></div>
+  <script src="js/core.min.js"></script>
+  <script src="js/script.js"></script>
+  <script src="js/non-resume-form.js"></script>
+  <script src="js/site-api.js"></script>
+</body>
+</html>

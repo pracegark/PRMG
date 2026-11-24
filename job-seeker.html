@@ -10,7 +10,7 @@
 
   <meta name="format-detection" content="telephone=no">
   <meta name="viewport"
-    content="width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta charset="utf-8">
   <link rel="icon" href="images/favicon.png" type="image/x-icon">
@@ -19,6 +19,8 @@
     href="//fonts.googleapis.com/css?family=Poppins:400,500,700%7CQuattrocento+Sans:400,700%7CMontserrat:900">
   <link rel="stylesheet" href="css/fonts.css">
   <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/duplicate-contact.css">
+  <link rel="stylesheet" href="css/resume-review.css">
   <style>
     .form-container {
       display: flex;
@@ -54,11 +56,11 @@
     }
     .form-container form { display: grid; gap: 10px; }
     .form-container label { margin-top: 8px; color: #fff; font-weight: 500; }
-    .form-container input,
+    .form-container input:not([type="hidden"]),
     .form-container textarea,
     .form-container select,
     .form-container button { font-family: inherit; }
-    .form-container input,
+    .form-container input:not([type="hidden"]),
     .form-container textarea,
     .form-container select {
       width: 100%;
@@ -94,6 +96,20 @@
     }
     .form-container button:hover,
     .form-container button:focus { background: #fff; transform: translateY(-2px); box-shadow: 0 8px 18px rgba(0, 0, 0, .2); }
+    .job-interest-dropdown { position:relative; width:100%; }
+    .job-interest-toggle { display:flex; align-items:center; justify-content:space-between; width:100%; min-height:50px; margin:0 !important; padding:12px 18px; color:#292d33 !important; background:rgba(255,255,255,.97) !important; border:1px solid rgba(0,0,0,.1) !important; border-radius:14px !important; font:inherit; text-align:left; box-shadow:none !important; transform:none !important; }
+    .job-interest-toggle:hover,.job-interest-toggle:focus { color:#292d33 !important; background:#fff !important; box-shadow:0 0 0 3px rgba(255,255,255,.2) !important; transform:none !important; }
+    .job-interest-chevron { width:9px; height:9px; flex:0 0 9px; margin:0 2px 4px 12px; border-right:2px solid #555; border-bottom:2px solid #555; transform:rotate(45deg); }
+    .job-interest-menu { position:absolute; z-index:30; top:calc(100% + 6px); right:0; left:0; max-height:min(360px,55vh); overflow-y:auto; padding:8px; border:1px solid rgba(0,0,0,.12); border-radius:12px; background:#fff; box-shadow:0 14px 28px rgba(0,0,0,.28); }
+    .job-interest-menu[hidden] { display:none; }
+    .job-interest-search { position:sticky; top:-8px; z-index:1; width:100%; min-height:44px; margin:0 0 6px !important; padding:10px 12px !important; color:#292d33 !important; background:#fff !important; border:0 !important; border-bottom:1px solid #e5e5e5 !important; border-radius:8px 8px 0 0 !important; box-shadow:none !important; font:inherit; }
+    .job-interest-option { display:block; width:100%; min-height:42px; margin:0 !important; padding:10px 12px; color:#292d33 !important; background:transparent !important; border:0 !important; border-radius:7px !important; font:inherit; text-align:left; box-shadow:none !important; transform:none !important; }
+    .job-interest-option[hidden] { display:none !important; }
+    .job-interest-option:hover,.job-interest-option:focus-visible { color:#a7192a !important; background:#fff0f2 !important; box-shadow:none !important; transform:none !important; }
+    .job-interest-option[aria-pressed="true"] { color:#a7192a !important; background:#fff0f2 !important; }
+    .job-interest-selected { display:flex; flex-wrap:wrap; gap:7px; margin-top:9px; }
+    .job-interest-chip { display:inline-flex; align-items:center; gap:7px; padding:5px 9px; border:1px solid rgba(255,255,255,.42); border-radius:999px; color:#fff; background:rgba(12,17,24,.62); font-size:13px; line-height:1.35; }
+    .job-interest-chip button { width:20px; height:20px; padding:0; border:0; border-radius:50%; color:#fff; background:rgba(255,255,255,.2); line-height:1; cursor:pointer; }
     @media (max-width: 600px) {
       .form-container { padding: 32px 14px; }
     }
@@ -135,30 +151,51 @@
         <div class="container">
             <h2>Get in touch about work</h2>
             <p class="description">Share your contact information and what kind of work you’re looking for. Our recruiting team will follow up.</p>
+            <p class="description">Don’t have a resume? <a href="non-resume.html">Complete our trade checklist instead.</a></p>
             <form id="contact-form">
                 <label for="first-name">First name</label>
-                <input type="text" id="first-name" name="firstName" autocomplete="given-name" required>
+                <input type="text" id="first-name" name="firstName" autocomplete="given-name">
 
                 <label for="last-name">Last name</label>
-                <input type="text" id="last-name" name="lastName" autocomplete="family-name" required>
+                <input type="text" id="last-name" name="lastName" autocomplete="family-name">
                 
                 <label for="email">Email</label>
-                <input type="email" id="email" name="email" autocomplete="email" required>
+                <input type="email" id="email" name="email" autocomplete="email">
 
                 <label for="phone">Phone number</label>
-                <input type="tel" id="phone" name="phone" autocomplete="tel" required>
+                <input type="tel" id="phone" name="phone" autocomplete="tel">
 
-                <label for="job-interest">Which job are you interested in?</label>
-                <select id="job-interest" name="jobId" required>
-                    <option value="" selected disabled>Loading available jobs…</option>
-                </select>
+                    <label id="job-interest-label">Which jobs are you interested in?</label>
+                <div class="job-interest-dropdown">
+                    <input type="hidden" id="job-interest" name="jobInterests" value="[]">
+                    <button class="job-interest-toggle" id="job-interest-toggle" type="button" aria-labelledby="job-interest-label job-interest-value" aria-haspopup="true" aria-expanded="false" aria-controls="job-interest-menu" disabled>
+                        <span id="job-interest-value">Loading job titles…</span><span class="job-interest-chevron" aria-hidden="true"></span>
+                    </button>
+                    <div class="job-interest-menu" id="job-interest-menu" role="group" aria-labelledby="job-interest-label" hidden><input class="job-interest-search" id="job-interest-search" type="search" placeholder="Search job titles" aria-label="Search job titles"><div id="job-interest-options"></div></div>
+                </div>
+                <div class="job-interest-selected" id="job-interest-selected" aria-live="polite"></div>
                 <p id="job-interest-status" aria-live="polite"></p>
 
                 <label for="resume">Resume (PDF or Word document)</label>
                 <input type="file" id="resume" name="resume" accept=".pdf,.doc,.docx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" required>
                 <small>Accepted formats: PDF, DOC, DOCX. Maximum file size: 10 MB.</small>
+
+                <section id="resume-review" class="resume-review" aria-labelledby="resume-review-heading" hidden>
+                  <p class="resume-review-kicker">RESUME DETAILS</p>
+                  <h3 id="resume-review-heading">Review your information</h3>
+                  <p id="resume-review-message">We’ll suggest details we can read from your resume. Please review them before submitting.</p>
+                  <label for="resume-work-history">Work experience</label>
+                  <textarea id="resume-work-history" rows="6" placeholder="Work experience details from your resume"></textarea>
+                  <small>Review or edit the extracted work experience. Each line will be saved to your application.</small>
+                  <label for="resume-certifications">Certifications and licenses</label>
+                  <textarea id="resume-certifications" rows="4" placeholder="Certifications and licenses from your resume"></textarea>
+                  <label for="resume-education">Education</label>
+                  <textarea id="resume-education" rows="3" placeholder="Education details from your resume"></textarea>
+                  <label for="resume-skills">Skills</label>
+                  <textarea id="resume-skills" rows="3" placeholder="Skills from your resume"></textarea>
+                </section>
                 
-                <button id="submit" type="submit">Send my information</button>
+                <button id="submit" type="submit">Review resume details</button>
                 <!-- <button id="export-btn">Export to Excel</button> -->
             </form>
         </div>

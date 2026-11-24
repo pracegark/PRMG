@@ -5,8 +5,8 @@ import { fileURLToPath } from "node:url";
 const projectRoot = resolve(fileURLToPath(new URL("..", import.meta.url)));
 const outputRoot = join(projectRoot, "dist");
 const excludedEntries = new Set([
-  ".azure", ".git", ".github", ".vscode", "dist", "node_modules", "partials", "scripts", "_notes",
-  ".DS_Store", ".gitignore", "package-lock.json", "package.json", "server.mjs"
+  ".azure", ".git", ".github", ".vscode", "data", "dist", "node_modules", "partials", "scripts", "_notes",
+  ".DS_Store", ".gitignore", "README.md", "local-api.mjs", "package-lock.json", "package.json", "server.mjs"
 ]);
 const headerMarker = "<!-- SHARED_SITE_HEADER -->";
 const headerTemplate = readFileSync(join(projectRoot, "partials", "site-header.html"), "utf8");
@@ -30,13 +30,16 @@ function buildHtml(directory) {
     if (!entry.isFile() || extname(entry.name).toLowerCase() !== ".html") continue;
 
     const source = readFileSync(filePath, "utf8");
-    if (!source.includes(headerMarker) && !source.includes(footerMarker)) continue;
     const pathFromPageToRoot = relative(dirname(filePath), outputRoot).split(sep).join("/");
     const rootPrefix = pathFromPageToRoot ? `${pathFromPageToRoot}/` : "";
     const header = headerTemplate.replaceAll("{{ROOT}}", rootPrefix);
     const footer = footerTemplate.replaceAll("{{ROOT}}", rootPrefix);
-    const builtHtml = source.replaceAll(headerMarker, header).replaceAll(footerMarker, footer);
-    writeFileSync(filePath, builtHtml);
+    let builtHtml = source.replaceAll(headerMarker, header).replaceAll(footerMarker, footer);
+    const mobileStylesheetPath = `${rootPrefix}css/mobile.css`;
+    if (!builtHtml.includes(mobileStylesheetPath) && builtHtml.includes("</head>")) {
+      builtHtml = builtHtml.replace("</head>", `  <link rel="stylesheet" href="${mobileStylesheetPath}">\n</head>`);
+    }
+    if (builtHtml !== source) writeFileSync(filePath, builtHtml);
   }
 }
 

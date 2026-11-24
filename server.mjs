@@ -2,6 +2,7 @@ import { createReadStream, statSync } from "node:fs";
 import { createServer } from "node:http";
 import { extname, resolve, sep } from "node:path";
 import { fileURLToPath } from "node:url";
+import { handleLocalApi } from "./local-api.mjs";
 
 const projectRoot = resolve(fileURLToPath(new URL(".", import.meta.url)));
 const root = resolve(projectRoot, "dist");
@@ -26,7 +27,35 @@ const contentTypes = {
   ".woff2": "font/woff2"
 };
 
-const server = createServer((request, response) => {
+const server = createServer(async (request, response) => {
+  let url;
+  try {
+    url = new URL(request.url, "http://localhost");
+  } catch {
+    response.writeHead(400);
+    response.end("Bad request");
+    return;
+  }
+
+  if (url.pathname.startsWith("/api/")) {
+    try {
+      await handleLocalApi(request, response, url);
+    } catch (error) {
+      if (!response.headersSent) {
+        const body = JSON.stringify({ message: error.message || "Local API error." });
+        response.writeHead(error.statusCode || 500, {
+          "Content-Type": "application/json; charset=utf-8",
+          "Content-Length": Buffer.byteLength(body),
+          "Cache-Control": "no-store"
+        });
+        response.end(body);
+      } else {
+        response.destroy(error);
+      }
+    }
+    return;
+  }
+
   if (request.method !== "GET" && request.method !== "HEAD") {
     response.writeHead(405, { Allow: "GET, HEAD" });
     response.end("Method not allowed");
@@ -35,7 +64,7 @@ const server = createServer((request, response) => {
 
   let pathname;
   try {
-    pathname = decodeURIComponent(new URL(request.url, "http://localhost").pathname);
+    pathname = decodeURIComponent(url.pathname);
   } catch {
     response.writeHead(400);
     response.end("Bad request");
